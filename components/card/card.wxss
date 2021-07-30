@@ -1,0 +1,10 @@
+.card {
+  width: 90vw;
+  height: 60vh;
+  margin: auto;
+}
+
+image {
+  border-radius: 4px;
+  opacity: 0.9;
+}

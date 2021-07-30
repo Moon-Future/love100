@@ -1,0 +1,5 @@
+<view class="card">
+  <image class="" src="{{ src }}" lazy-load="false" />
+  <!-- <image class="" src="" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload="" /> -->
+</view>
+  

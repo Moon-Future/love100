@@ -1,9 +1,20 @@
 /**index.wxss**/
+.container {
+  background: url(https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/bg/love01.jpg);
+  background-size: cover;
+}
+
 .userinfo {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.user {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #aaa;
+  color: #fff;
 }
 
 .userinfo-avatar {
@@ -14,6 +25,27 @@
   border-radius: 50%;
 }
 
-.usermotto {
-  margin-top: 200px;
+.tap-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.tab {
+  border: 1px solid #fa889f;
+  border-radius: 4px;
+  padding: 5px;
+  background: #ffa6b8;
+  color: #ffffff;
+}
+
+.noUser {
+  width: 128rpx;
+  height: 128rpx;
+  color: #fff;
+  background: #fff;
+}
+
+.card-swiper {
+  height: 100%;
 }

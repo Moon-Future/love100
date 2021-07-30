@@ -1,0 +1,2 @@
+<image class="{{ className }}" src="{{ icon }}" lazy-load="false" style="{{ style }}" />
+  
