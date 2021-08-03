@@ -12,12 +12,18 @@ page {
 
 .avatar-wrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   padding-top: 180rpx;
 }
+
 .avatar {
   display: flex;
   flex-direction: column;
   align-items: center;
   color: #fff;
+}
+
+.heart-line {
+  height: 128rpx;
+  width: 300rpx;
 }

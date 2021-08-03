@@ -4,6 +4,7 @@
       <view class="cu-avatar xl round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
       <view>星辰大海</view>
     </view>
+    <image class="heart-line" src="/static/images/heart.png"></image>
     <view class="avatar">
       <view class="cu-avatar xl round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
       <view>手可摘星辰</view>
