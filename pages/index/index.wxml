@@ -1,9 +1,4 @@
-<!--index.wxml-->
-<view class="container">
-  <!-- <view class="tap-wrapper">
-    <view class="tab">恋爱100件小事</view>
-    <view class="tab">心动第一次</view>
-  </view> -->
+<!-- <view class="container">
   <view class="userinfo">
     <view class="user" wx:if="{{canIUseOpenData}}">
       <view class="userinfo-avatar">
@@ -13,20 +8,18 @@
     </view>
     <view class="user" wx:if="{{canIUseOpenData}}">
       <view class="userinfo-avatar">
-        <icon class="noUser" icon="../../static/icon/no-avatar.png"></icon>
+        <icon class="noUser" icon="../../static/images/02.jpg"></icon>
       </view>
-      <open-data type="userNickName"></open-data>
+      <view>媛媛</view>
     </view>
   </view>
   <swiper class="card-swiper">
-    <swiper-item>
-      <card></card>
-    </swiper-item>
-    <swiper-item>
-      <card></card>
-    </swiper-item>
-    <swiper-item>
-      <card></card>
-    </swiper-item>
+    <block wx:for="{{cardImages}}" wx:for-item="">
+      <swiper-item>
+        <card src="{{item.src}}" title="{{item.title}}"></card>
+      </swiper-item>
+    </block>
   </swiper>
-</view>
+</view> -->
+
+<bar active="1"></bar>

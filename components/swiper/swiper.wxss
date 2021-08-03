@@ -1,0 +1,16 @@
+.card-swiper {
+  height: 950rpx !important;
+}
+.card-swiper swiper-item .swiper-item {
+  height: 90%;
+}
+.title-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20rpx 0;
+}
+.title {
+  color: #fff;
+  margin-left: 20rpx;
+}

@@ -1,0 +1,23 @@
+page {
+  background: var(--gradualBlue);
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  bottom: calc(env(safe-area-inset-bottom) / 2 + 100rpx);
+  left: 0;
+  right: 0;
+}
+
+.avatar-wrapper {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 180rpx;
+}
+.avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+}

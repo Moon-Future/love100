@@ -4,7 +4,24 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
+    cardImages: [
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+      { title: '一起雪中漫步', src: '../../static/images/01.jpg' },
+    ],
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),

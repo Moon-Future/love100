@@ -1,4 +1,5 @@
 {
-  "usingComponents": {},
-  "navigationStyle": "custom"
+  "usingComponents": {
+    "bar": "/components/bar/bar"
+  }
 }
