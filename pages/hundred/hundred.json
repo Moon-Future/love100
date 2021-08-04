@@ -1,6 +1,6 @@
 {
   "usingComponents": {
     "bar": "/components/bar/bar",
-    "love-swiper": "/components/swiper/swiper"
+    "cardSwiper": "/components/cardSwiper/cardSwiper"
   }
 }

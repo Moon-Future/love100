@@ -2,6 +2,6 @@
   "component": true,
   "usingComponents": {
     "finishForm": "/components/finishForm/finishForm",
-    "message": "/components/message/message"
+    "draw": "/components/draw/draw"
   }
 }

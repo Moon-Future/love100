@@ -10,7 +10,7 @@
       <view>手可摘星辰</view>
     </view>
   </view>
-  <love-swiper swiperList="{{swiperList}}"></love-swiper>
+  <cardSwiper swiperList="{{swiperList}}"></cardSwiper>
 </view>
 
 <bar active="3"></bar>

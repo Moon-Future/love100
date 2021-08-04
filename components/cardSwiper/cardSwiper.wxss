@@ -1,5 +1,4 @@
 .card-swiper {
-  /* height: 950rpx !important; */
   height: calc(100vh - 400rpx - env(safe-area-inset-bottom) / 2) !important;
 }
 .card-swiper swiper-item {

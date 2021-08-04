@@ -19,8 +19,10 @@ Page({
         title: '一起雪中漫步',
         url: '/static/images/01.jpg',
         src: i < 3 ? '/static/images/01.jpg' : '',
-        w: 1070 / 1647,
-        h: 950 / 2586,
+        width: 1647,
+        height: 2586,
+        ratioW: 1070 / 1647,
+        ratioH: 950 / 2586,
         left: 10000,
         top: 10000,
         finished: true

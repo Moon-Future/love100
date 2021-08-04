@@ -13,11 +13,12 @@ Page({
    */
   onLoad: function (options) {
     console.log('options', options, app.globalData)
-    let { width, height, imageItem } = app.globalData.painterData
+    let { width, height, imageItem, adr, time } = app.globalData.painterData
+    let canvasWitdh = imageItem.width / imageItem.height * height
     let painterData = {
-      background: '#eee',
-      width: width + 'px',
-      height: height + 'px',
+      background: '#fff',
+      width: canvasWitdh + 'px',
+      height: height + 100 + 'px',
       borderRadius: '20rpx',
       views: [
         {
@@ -25,12 +26,18 @@ Page({
           url: imageItem.url,
           mode: 'scaleToFill',
           css: {
-            // top: '20px',
-            // left: '20px',
-            // width: width + 'px',
+            width: canvasWitdh + 'px',
             height: height + 'px',
-            borderRadius: '20rpx',
+            borderRadius: '20rpx 20rpx 0 0',
           },
+        },
+        {
+          type: 'text',
+          text: adr,
+          css: {
+            left: imageItem.ratioW * canvasWitdh + 'px',
+            top: imageItem.ratioH * height + 'px'
+          }
         }
       ]
     }

@@ -17,7 +17,6 @@
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "icon": "components/icon/icon",
-    "card": "components/card/card",
     "cu-custom": "/colorui/components/cu-custom"
   }
 }

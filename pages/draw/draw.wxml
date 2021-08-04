@@ -3,4 +3,4 @@
   <view slot="content">生成图片</view>
 </cu-custom>
 
-<painter customStyle="margin:auto" palette="{{painterData}}" use2D bind:imgOK="onImgOK" />
+<painter customStyle="display:flex;justify-content:center;margin-top:20rpx" palette="{{painterData}}" use2D bind:imgOK="onImgOK" />

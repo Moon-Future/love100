@@ -3,17 +3,17 @@
     <view class="swiper-item">
       <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="aspectFit" bindload="onLoad"></image>
       <view class="adr" style="left:{{item.left}}px;top:{{item.top}}px">武汉</view>
-      <view class="time">2021-08-08</view>
+      <!-- <view class="time">2021-08-08</view> -->
     </view>
     <view class="title-wrapper" data-index="{{index}}" bindtap="finished">
       <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
 			<view class="title">{{index + 1}}. {{item.title}}</view>
 		</view>
-    <view class="flex-box" wx:if="{{item.finished}}">
+    <view class="flex-box" wx:if="{{item.finished && cardCur==index}}">
       <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">编辑</button>
       <button class="cu-btn margin-tb-sm bg-olive shadow btn" bindtap="share">分享</button>
     </view>
   </swiper-item>
 </swiper>
-<message show="{{messageShow}}" message="{{message}}" bind:confirm="confirm" bind:cancel="cancel"></message>
 <finishForm show="{{modalShow}}" title="{{modalTitle}}" bind:hideModal="hideModal" bind:save="save"></finishForm>
+<draw show="{{drawShow}}" painterData="{{painterData}}" bind:onImgOK="onImgOK"></draw>

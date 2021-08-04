@@ -5,6 +5,6 @@
   right: 0;
 }
 
-.box view.cu-bar {
+.box .cu-bar {
   margin-top: 20rpx; 
 }

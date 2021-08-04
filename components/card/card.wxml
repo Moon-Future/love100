@@ -1,8 +1,0 @@
-<view class="card">
-  <label class="card-title">
-    <radio value="r1" checked="true" />
-    {{title}}
-  </label>
-  <image class="card-img" src="{{ src }}" mode="aspectFit" lazy-load="false" />
-  <!-- <image class="" src="" mode="aspectFit|aspectFill|widthFix" lazy-load="false" binderror="" bindload="" /> -->
-</view>
