@@ -1,4 +1,7 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "finishForm": "/components/finishForm/finishForm",
+    "message": "/components/message/message"
+  }
 }

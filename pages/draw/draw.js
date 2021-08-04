@@ -1,33 +1,41 @@
-// pages/hundred/hundred.js
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    swiperList: []
+    painterData: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let swiperList = []
-    for (let i = 0, len = 100; i < len; i++) {
-      swiperList.push({
-        id: i,
-        title: '一起雪中漫步',
-        url: '/static/images/01.jpg',
-        src: i < 3 ? '/static/images/01.jpg' : '',
-        w: 1070 / 1647,
-        h: 950 / 2586,
-        left: 10000,
-        top: 10000,
-        finished: true
-      })
+    console.log('options', options, app.globalData)
+    let { width, height, imageItem } = app.globalData.painterData
+    let painterData = {
+      background: '#eee',
+      width: width + 'px',
+      height: height + 'px',
+      borderRadius: '20rpx',
+      views: [
+        {
+          type: 'image',
+          url: imageItem.url,
+          mode: 'scaleToFill',
+          css: {
+            // top: '20px',
+            // left: '20px',
+            // width: width + 'px',
+            height: height + 'px',
+            borderRadius: '20rpx',
+          },
+        }
+      ]
     }
     this.setData({
-      swiperList
+      painterData
     })
   },
 
@@ -78,5 +86,9 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  onImgOK(e) {
+    console.log('onImgOK', e)
   }
 })

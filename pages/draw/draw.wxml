@@ -1,0 +1,6 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">生成图片</view>
+</cu-custom>
+
+<painter customStyle="margin:auto" palette="{{painterData}}" use2D bind:imgOK="onImgOK" />

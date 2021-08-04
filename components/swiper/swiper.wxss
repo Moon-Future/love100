@@ -1,8 +1,13 @@
 .card-swiper {
-  height: 950rpx !important;
+  /* height: 950rpx !important; */
+  height: calc(100vh - 400rpx - env(safe-area-inset-bottom) / 2) !important;
+}
+.card-swiper swiper-item {
+  overflow: auto;
 }
 .card-swiper swiper-item .swiper-item {
   height: 90%;
+  position: relative;
 }
 .title-wrapper {
   display: flex;
@@ -13,4 +18,16 @@
 .title {
   color: #fff;
   margin-left: 20rpx;
+}
+.cu-btn.btn {
+  width: 250rpx;
+  margin: 0 30rpx 30rpx 30rpx;
+}
+.icon-check {
+  font-size: 46rpx;
+  color: #fff;
+}
+.adr, .time {
+  position: absolute;
+  font-size: 26rpx;
 }

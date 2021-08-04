@@ -1,0 +1,15 @@
+.cu-dialog {
+  width: 500rpx;
+}
+.text {
+  font-size: 34rpx;
+}
+.cu-btn {
+  border-radius: 0;
+  color: #000;
+  font-weight: inherit;
+  border: 1px solid #eee;
+}
+.confirm {
+  color: #0081ff;
+}

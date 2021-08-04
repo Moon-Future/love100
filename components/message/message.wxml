@@ -1,0 +1,12 @@
+<view class="cu-modal {{show ? 'show' : ''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end" wx:if="{{title}}">
+      <view class="content">{{title}}</view>
+    </view>
+    <view class="padding-xl text">{{message}}</view>
+    <view class="flex-box">
+      <button class="cu-btn bg-white lg" bindtap="cancel">取消</button>
+      <button class="cu-btn bg-white lg confirm" bindtap="confirm">确认</button>
+    </view>
+  </view>
+</view>

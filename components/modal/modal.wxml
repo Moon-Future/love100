@@ -1,0 +1,11 @@
+<view class="cu-modal {{modalShow ? 'show' : ''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <view class="content">{{title}}</view>
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <slot></slot>
+  </view>
+</view>
