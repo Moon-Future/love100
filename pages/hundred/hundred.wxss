@@ -2,7 +2,7 @@ page {
   background: var(--gradualBlue);
 }
 
-.container {
+/* .container {
   position: absolute;
   top: 0;
   bottom: calc(env(safe-area-inset-bottom) / 2 + 100rpx);
@@ -14,6 +14,7 @@ page {
   display: flex;
   justify-content: center;
   padding-top: 180rpx;
+  position: relative;
 }
 
 .avatar {
@@ -26,4 +27,26 @@ page {
 .heart-line {
   height: 128rpx;
   width: 300rpx;
+} */
+
+.show-type {
+  /* position: absolute;
+  left: 50%;
+  bottom: -20rpx;
+  transform: translate(-50%, 0); */
+  display: flex;
+  justify-content: space-around;
+  width: 200rpx;
+  margin: auto;
+  padding: 20rpx;
+}
+
+.show-type .icon {
+  font-size: 50rpx;
+  color: #fff;
+}
+
+.show-type .icon.icon-active {
+  color: #fbbd08;
+  font-weight: bold;
 }

@@ -1,25 +1,66 @@
-<!-- <view class="container">
-  <view class="userinfo">
-    <view class="user" wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar">
+<view class="userinfo" style="margin-top:{{CustomBar}}px">
+  <view class="user" wx:if="{{canIUseOpenData}}">
+    <block wx:if="{{canIUseOpenData}}">
+      <view class="userinfo-avatar" bindtap="updateUser">
         <open-data type="userAvatarUrl"></open-data>
       </view>
-      <open-data type="userNickName"></open-data>
-    </view>
-    <view class="user" wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar">
-        <icon class="noUser" icon="../../static/images/02.jpg"></icon>
+      <block wx:if="{{userInfo.login}}">
+        <open-data class="userinfo-nickname" type="userNickName"></open-data>
+      </block>
+      <block wx:else>
+        <button class="login-avatar" wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile">点击登录</button>
+        <button class="login-avatar" wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo">点击登录</button>
+      </block>
+    </block>
+    <block wx:elif="{{!hasUserInfo}}">
+      <button class="button-avatar" wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+      <button class="button-avatar" wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
+    </block>
+    <block wx:else>
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover" bindtap="updateUser"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <image class="heart-line" src="/static/images/heart.png"></image>
+  <view class="user">
+    <block wx:if="{{!userInfo.lover}}">
+      <button wx:if="{{userInfo.login}}" class="invited-avatar" open-type="share">
+        <icon class="noUser" icon="../../static/icon/no-avatar.png"></icon>
+      </button>
+      <button wx:else class="invited-avatar" bindtap="invited">
+        <icon class="noUser" icon="../../static/icon/no-avatar.png"></icon>
+      </button>
+    </block>
+    <block wx:else>
+      <view class="userinfo-avatar" bindtap="invited" open-type="share">
+        <icon class="noUser" icon="../../static/icon/no-avatar.png"></icon>
       </view>
-      <view>媛媛</view>
+    </block>
+    <view class="userinfo-nickname">邀请TA</view>
+  </view>
+</view>
+
+<view class="cu-card case" data-url="hundred" bindtap="goPage">
+  <view class="cu-item shadow">
+    <view class="image">
+      <image src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-01.jpg" mode="aspectFit"></image>
+      <view class="cu-tag bg-pink">恋爱百分百</view>
+      <view class="cu-bar bg-shadeBottom">
+        <text class="text-cut">感谢这个特殊的日子里有你</text>
+      </view>
     </view>
   </view>
-  <swiper class="card-swiper">
-    <block wx:for="{{cardImages}}" wx:for-item="">
-      <swiper-item>
-        <card src="{{item.src}}" title="{{item.title}}"></card>
-      </swiper-item>
-    </block>
-  </swiper>
-</view> -->
+</view>
 
-<bar active="1"></bar>
+<view class="cu-modal bottom-modal {{modalShow ? 'show' : ''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white">
+      <button class="action text-green modal-btn" bindtap="getUserProfile">确定</button>
+      <view class="action text-blue" bindtap="hideModal">取消</view>
+    </view>
+    <view class="padding-xl">
+      更新用户信息？
+    </view>
+  </view>
+</view>

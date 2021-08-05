@@ -5,7 +5,9 @@ Page({
    * 页面的初始数据
    */
   data: {
-    swiperList: []
+    swiperList: [],
+    cardCur: 0,
+    showType: 'card'
   },
 
   /**
@@ -18,7 +20,7 @@ Page({
         id: i,
         title: '一起雪中漫步',
         url: '/static/images/01.jpg',
-        src: i < 3 ? '/static/images/01.jpg' : '',
+        // src: i < 3 ? '/static/images/01.jpg' : '',
         width: 1647,
         height: 2586,
         ratioW: 1070 / 1647,
@@ -80,5 +82,18 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+
+  typeChange(e) {
+    const type = e.currentTarget.dataset.type
+    this.setData({
+      showType: type
+    })
+  },
+
+  listSelect() {
+    this.setData({
+      showType: 'card'
+    })
   }
 })

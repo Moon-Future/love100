@@ -1,13 +1,15 @@
-/**index.wxss**/
-.container {
-  background: url(https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/bg/love01.jpg);
+page {
+  background: url(https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/bg/bg.jpg);
   background-size: cover;
 }
 
+.cu-card {
+  opacity: 0.8;
+}
+
 .userinfo {
-  padding-top: 10vh;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .user {
@@ -21,22 +23,46 @@
   overflow: hidden;
   width: 128rpx;
   height: 128rpx;
-  margin: 20rpx;
+  margin-bottom: 20rpx;
   border-radius: 50%;
 }
 
-.tap-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
+.userinfo-nickname {
+  width: 180rpx;
+  text-align: center;
 }
 
-.tab {
-  border: 1px solid #fa889f;
-  border-radius: 4px;
-  padding: 5px;
-  background: #ffa6b8;
-  color: #ffffff;
+.userinfo .button-avatar {
+  overflow: hidden;
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  padding: 30rpx;
+  font-size: 24rpx;
+}
+
+.userinfo .login-avatar {
+  width: 180rpx;
+  text-align: center;
+  padding: 0;
+  font-size: 30rpx;
+  font-weight: inherit;
+  color: #fff;
+  background: initial;
+}
+
+.heart-line {
+  height: 150rpx;
+  width: 330rpx;
+}
+
+.user .invited-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 50%;
+  margin-bottom: 20rpx;
+  padding: 0;
 }
 
 .noUser {
@@ -46,6 +72,9 @@
   background: #fff;
 }
 
-.card-swiper {
-  height: 70vh;
+.cu-modal .cu-dialog .modal-btn {
+  width: initial;
+  padding: 0;
+  margin: 0;
+  background: #fff;
 }

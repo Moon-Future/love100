@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/hundred/hundred",
     "pages/index/index",
+    "pages/hundred/hundred",
     "pages/logs/logs",
     "pages/love/love",
     "pages/draw/draw"

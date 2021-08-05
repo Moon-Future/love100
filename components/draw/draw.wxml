@@ -1,7 +1,7 @@
 <block wx:if="{{show}}">
   <view class="cu-modal {{modalShow ? 'show' : ''}}">
     <view class="cu-dialog">
-      <image class="canvas-image" src="{{imageSrc}}" mode="aspectFit" style="height:{{painterData.height}}"></image>
+      <image class="canvas-image" src="{{imageSrc}}" mode="aspectFit" style="height:{{painterData.imageHeight - CustomBar}}px;margin-top:{{CustomBar}}px"></image>
       <view class="flex-box">
         <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">保存</button>
         <button class="cu-btn margin-tb-sm bg-red shadow btn" bindtap="cancel">取消</button>

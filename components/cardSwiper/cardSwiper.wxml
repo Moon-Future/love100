@@ -1,19 +1,31 @@
-<swiper class="card-swiper" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff">
-  <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
-    <view class="swiper-item">
-      <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="aspectFit" bindload="onLoad"></image>
-      <view class="adr" style="left:{{item.left}}px;top:{{item.top}}px">武汉</view>
-      <!-- <view class="time">2021-08-08</view> -->
-    </view>
-    <view class="title-wrapper" data-index="{{index}}" bindtap="finished">
-      <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
-			<view class="title">{{index + 1}}. {{item.title}}</view>
-		</view>
-    <view class="flex-box" wx:if="{{item.finished && cardCur==index}}">
-      <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">编辑</button>
-      <button class="cu-btn margin-tb-sm bg-olive shadow btn" bindtap="share">分享</button>
-    </view>
-  </swiper-item>
-</swiper>
+<block wx:if="{{showType === 'card'}}">
+  <swiper class="card-swiper" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff" current="{{cardCur}}">
+    <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
+      <view class="swiper-item">
+        <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="aspectFit" bindload="imageOnLoad"></image>
+        <view class="adr" style="left:{{item.left}}px;top:{{item.top}}px">武汉</view>
+        <!-- <view class="time">2021-08-08</view> -->
+      </view>
+      <view class="title-wrapper" data-index="{{index}}" bindtap="finished">
+        <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
+        <view class="title">{{index + 1}}. {{item.title}}</view>
+      </view>
+      <view class="flex-box" wx:if="{{item.finished && cardCur==index}}">
+        <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">编辑</button>
+        <button class="cu-btn margin-tb-sm bg-olive shadow btn" bindtap="share">分享</button>
+      </view>
+    </swiper-item>
+  </swiper>
+</block>
+  
 <finishForm show="{{modalShow}}" title="{{modalTitle}}" bind:hideModal="hideModal" bind:save="save"></finishForm>
 <draw show="{{drawShow}}" painterData="{{painterData}}" bind:onImgOK="onImgOK"></draw>
+
+<block wx:if="{{showType === 'list'}}">
+  <view class="list-wrapper">
+    <view class="list-item" wx:for="{{swiperList}}" wx:key="index" data-index="{{index}}" bindtap="listSelect">
+      <view class="list-icon icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
+      <view class="list-title">{{index + 1}}. {{item.title}}</view>
+    </view>
+  </view>
+</block>

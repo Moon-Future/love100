@@ -10,6 +10,14 @@ Component({
     swiperList: {
       type: Array,
       value: []
+    },
+    cardCur: {
+      type: Number,
+      value: 0
+    },
+    showType: {
+      type: String,
+      value: 'card'
     }
   },
 
@@ -17,44 +25,73 @@ Component({
    * 组件的初始数据
    */
   data: {
-    cardCur: 0,
     modalShow: false,
     modalTitle: '',
     painterData: {},
     drawShow: false
   },
 
+  lifetimes: {
+    ready() {
+      this.imageReady = {}
+      // let swiperList = this.data.swiperList
+      // let cardCur = this.data.cardCur
+      // swiperList[cardCur].src = swiperList[cardCur].url
+      // this.imageReady[cardCur] = true
+      // if (cardCur !== 0) {
+      //   swiperList[cardCur - 1].src = swiperList[cardCur - 1].url
+      //   this.imageReady[cardCur - 1] = true
+      // }
+      // if (cardCur !== swiperList.length - 1) {
+      //   swiperList[cardCur + 1].src = swiperList[cardCur + 1].url
+      //   this.imageReady[cardCur + 1] = true
+      // }
+      // this.setData({
+      //   swiperList
+      // })
+      this.setImage(this.data.cardCur)
+    }
+  },
+
   /**
    * 组件的方法列表
    */
   methods: {
-    cardSwiper(e) {
-      let current = e.detail.current
-      let swiperList = this.data.swiperList
+    // 设置图片
+    setImage(index) {
       let flag = false
-      this.lazyIndex = this.lazyIndex || 2
-      if (current > this.lazyIndex - 2) {
-        if (swiperList[current + 2]) {
-          swiperList[current + 2].src = swiperList[current + 2].url
-          this.lazyIndex++
-          flag = true
-        }
+      let swiperList = this.data.swiperList
+      if (!this.imageReady[index]) {
+        swiperList[index].src = swiperList[index].url
+        this.imageReady[index] = true
+        flag = true
+      }
+      if (index !== 0 && !this.imageReady[index - 1]) {
+        swiperList[index - 1].src = swiperList[index - 1].url
+        this.imageReady[index - 1] = true
+        flag = true
+      }
+      if (index !== swiperList.length - 1 && !this.imageReady[index + 1]) {
+        swiperList[index + 1].src = swiperList[index + 1].url
+        this.imageReady[index + 1] = true
+        flag = true
       }
       if (flag) {
-        this.setData({
-          cardCur: e.detail.current,
-          swiperList
-        })
-      } else {
-        this.setData({
-          cardCur: e.detail.current
-        })
+        this.setData({ swiperList })
       }
+    },
+    // 左右切换
+    cardSwiper(e) {
+      let current = e.detail.current
+      this.setImage(current)
+      this.setData({
+        cardCur: e.detail.current
+      })
       this.posInfo(current)
     },
-    onLoad() {
+    imageOnLoad() {
       if (!this.width) {
-        this.posInfo(0)
+        this.posInfo(this.data.cardCur)
       }
     },
     // 完成信息定位
@@ -68,7 +105,7 @@ Component({
           [top]: item.ratioH * this.height
         })
       } else {
-        this.createSelectorQuery().select('#image0').boundingClientRect((rect) => {
+        this.createSelectorQuery().select(`#image${index}`).boundingClientRect((rect) => {
           this.width = rect.width
           this.height = rect.height
           this.setData({
@@ -77,6 +114,14 @@ Component({
           })
         }).exec()
       }
+    },
+    // 列表选择
+    listSelect(e) {
+      this.setData({
+        cardCur: e.currentTarget.dataset.index
+      })
+      this.setImage(this.data.cardCur)
+      this.triggerEvent('listSelect')
     },
     // 选择完成或取消
     finished(e) {
@@ -110,16 +155,6 @@ Component({
     },
     // 绘图分享
     share() {
-      // app.globalData.painterData = {
-      //   width: this.width,
-      //   height: this.height,
-      //   imageItem: this.data.swiperList[this.data.cardCur],
-      //   adr: '武汉',
-      //   time: '2021-08-08'
-      // }
-      // wx.navigateTo({
-      //   url: '/pages/draw/draw'
-      // })
       wx.showLoading({
         title: '图片生成中',
         mask: true
@@ -130,6 +165,7 @@ Component({
         background: '#fff',
         width: canvasWitdh + 'px',
         height: this.height + 100 + 'px',
+        imageHeight: this.height + 100,
         borderRadius: '20rpx',
         views: [
           {

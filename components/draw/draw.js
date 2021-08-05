@@ -1,4 +1,4 @@
-// components/draw/draw.js
+const app = getApp()
 Component({
   options: {
     addGlobalClass: true
@@ -22,7 +22,8 @@ Component({
    */
   data: {
     modalShow: false,
-    imageSrc: ''
+    imageSrc: '',
+    CustomBar: app.globalData.CustomBar
   },
 
   /**
