@@ -3,6 +3,11 @@ page {
   background-size: cover;
 }
 
+.container {
+  height: 100vh;
+  overflow: auto;
+}
+
 .cu-card {
   opacity: 0.8;
 }
@@ -72,9 +77,46 @@ page {
   background: #fff;
 }
 
-.cu-modal .cu-dialog .modal-btn {
+.update-modal .cu-dialog .modal-btn {
   width: initial;
   padding: 0;
   margin: 0;
   background: #fff;
+}
+
+.update-modal .cu-bar .action {
+  padding: 0 30rpx;
+}
+
+.invited-modal .cu-dialog .flex-box {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.invited-modal .cu-dialog .userinfo-avatar {
+  margin: 20rpx;
+}
+
+.invited-modal .cu-dialog .userinfo-nickname {
+  width: auto;
+  font-size: 30rpx;
+}
+
+.invited-modal .cu-dialog .invited-text {
+  font-size: 30rpx;
+  text-align: left;
+  padding: 20rpx;
+}
+
+.invited-btngrp {
+  display: flex;
+}
+
+.invited-btn {
+  border: 1px solid #eee;
+  font-size: 30rpx;
+}
+
+.invited-btn-ok {
+  color: #0081ff;
 }

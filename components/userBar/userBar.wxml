@@ -1,0 +1,8 @@
+<view class="cu-card case userbar" data-url="hundred" bindtap="goPage">
+  <view class="cu-item shadow">
+    <view class="cu-bar">
+      <text class="text-cut">消息</text>
+      <text class="number-cut">20/100</text>
+    </view>
+  </view>
+</view>

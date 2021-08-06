@@ -4,6 +4,8 @@ const baseUrl = 'http://localhost:5555/api/wxLove100/'
 const API = {
   login: baseUrl + 'login',
   updateUserInfo: baseUrl + 'updateUserInfo',
+  toBeLover: baseUrl + 'toBeLover',
+  breakup: baseUrl + 'breakup',
   getArticle: baseUrl + 'getArticle',
   getArticleFile: baseUrl + 'getArticleFile',
   createName: baseUrl + 'createName',

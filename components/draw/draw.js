@@ -31,11 +31,21 @@ Component({
    */
   methods: {
     onImgOK(e) {
-      console.log('onImgOK', e)
+      this.path = e.detail.path
       this.triggerEvent('onImgOK')
       this.setData({
         modalShow: true,
         imageSrc: e.detail.path
+      })
+    },
+    saveImage() {
+      wx.saveImageToPhotosAlbum({
+        filePath: this.path,
+        success: (res) => {
+          this.setData({
+            modalShow: false
+          })
+        }
       })
     },
     cancel() {

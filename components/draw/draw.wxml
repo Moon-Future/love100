@@ -3,11 +3,11 @@
     <view class="cu-dialog">
       <image class="canvas-image" src="{{imageSrc}}" mode="aspectFit" style="height:{{painterData.imageHeight - CustomBar}}px;margin-top:{{CustomBar}}px"></image>
       <view class="flex-box">
-        <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">保存</button>
+        <button class="cu-btn margin-tb-sm shadow btn" bindtap="saveImage">保存</button>
         <button class="cu-btn margin-tb-sm bg-red shadow btn" bindtap="cancel">取消</button>
       </view>
     </view>
   </view>
 
-  <painter style="position:absolute;left:-9999rpx;top:-9999rpx;" palette="{{painterData}}" use2D bind:imgOK="onImgOK" />
+  <painter style="position:absolute;left:-9999rpx;top:-9999rpx;" palette="{{painterData}}" use2D widthPixels="500" bind:imgOK="onImgOK" />
 </block>

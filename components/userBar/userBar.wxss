@@ -1,0 +1,11 @@
+.userbar .cu-bar {
+  padding: 0 20rpx
+}
+
+.userbar .text-cut {
+  font-size: 32rpx;
+}
+
+.userbar .number-cut {
+  font-size: 40rpx;
+}
