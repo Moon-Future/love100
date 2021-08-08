@@ -2,9 +2,12 @@
   <swiper class="card-swiper" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff" current="{{cardCur}}">
     <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
       <view class="swiper-item">
-        <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="aspectFit" bindload="imageOnLoad"></image>
-        <view class="adr" style="left:{{item.left}}px;top:{{item.top}}px">武汉</view>
-        <!-- <view class="time">2021-08-08</view> -->
+        <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="widthFix" bindload="imageOnLoad"></image>
+        <view class="adr" style="left:{{item.adrLeft}}px;top:{{item.adrTop}}px">中华人民共和国</view>
+        <view class="time" style="left:{{item.timeLeft}}px;top:{{item.timeTop}}px">2021-08-08</view>
+        <!-- <image class="userinfo-avatar" style="left:{{item.avaLeft - 15}}px;top:{{item.avaTop}}px" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg" mode="cover"></image>
+        <image class="userinfo-avatar" style="left:{{item.avaLeft + 15}}px;top:{{item.avaTop}}px" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg" mode="cover"></image> -->
+        <image class="card-finger" style="left:{{item.avaLeft}}px;top:{{item.avaTop}}px" src="../../static/images/finger.png" dmode="cover"></image>
       </view>
       <view class="title-wrapper" data-index="{{index}}" bindtap="finished">
         <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>

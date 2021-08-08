@@ -3,9 +3,11 @@
 }
 .card-swiper swiper-item {
   padding: 0rpx 0rpx 70rpx;
+  width: 560rpx !important;
+  height: initial !important;
+  left: 95rpx;
 }
 .card-swiper swiper-item .swiper-item {
-  height: 90%;
   position: relative;
 }
 .title-wrapper {
@@ -28,7 +30,7 @@
 }
 .adr, .time {
   position: absolute;
-  font-size: 26rpx;
+  font-size: 20rpx;
 }
 
 .list-wrapper {
@@ -54,4 +56,12 @@
 
 .list-title {
   font-size: 40rpx;
+}
+
+.card-swiper .swiper-item .card-finger {
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

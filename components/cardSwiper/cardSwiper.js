@@ -97,20 +97,32 @@ Component({
     // 完成信息定位
     posInfo(index) {
       let item = this.data.swiperList[index]
-      let left = `swiperList[${index}].left`
-      let top = `swiperList[${index}].top`
+      let adrLeft = `swiperList[${index}].adrLeft`
+      let adrTop = `swiperList[${index}].adrTop`
+      let timeLeft = `swiperList[${index}].timeLeft`
+      let timeTop = `swiperList[${index}].timeTop`
+      let avaLeft = `swiperList[${index}].avaLeft`
+      let avaTop = `swiperList[${index}].avaTop`
       if (this.width) {
         this.setData({
-          [left]: item.ratioW * this.width,
-          [top]: item.ratioH * this.height
+          [adrLeft]: item.adrWidth / item.width * this.width,
+          [adrTop]: item.adrHeight / item.height * this.height,
+          [timeLeft]: item.timeWidth / item.width * this.width,
+          [timeTop]: item.timeHeight / item.height * this.height,
+          [avaLeft]: item.avaWidth / item.width * this.width,
+          [avaTop]: item.avaHeight / item.height * this.height
         })
       } else {
         this.createSelectorQuery().select(`#image${index}`).boundingClientRect((rect) => {
           this.width = rect.width
           this.height = rect.height
           this.setData({
-            [left]: item.ratioW * this.width,
-            [top]: item.ratioH * this.height
+            [adrLeft]: item.adrWidth / item.width * this.width,
+            [adrTop]: item.adrHeight / item.height * this.height,
+            [timeLeft]: item.timeWidth / item.width * this.width,
+            [timeTop]: item.timeHeight / item.height * this.height,
+            [avaLeft]: item.avaWidth / item.width * this.width,
+            [avaTop]: item.avaHeight / item.height * this.height
           })
         }).exec()
       }
@@ -179,11 +191,31 @@ Component({
             },
           },
           {
-            type: 'text',
-            text: '武汉',
+            type: 'image',
+            url: '../../static/images/finger.png',
+            mode: 'scaleToFill',
             css: {
-              left: imageItem.ratioW * canvasWitdh + 'px',
-              top: imageItem.ratioH * this.height + 'px'
+              width: '120rpx',
+              height: '120rpx',
+              left: imageItem.avaWidth / imageItem.width * canvasWitdh + 'px',
+              top: imageItem.avaHeight / imageItem.height * this.height + 'px'
+            },
+          },
+          {
+            type: 'text',
+            text: '中华人民共和国',
+            css: {
+              width: canvasWitdh - imageItem.timeWidth / imageItem.width * canvasWitdh + 'px',
+              left: imageItem.adrWidth / imageItem.width * canvasWitdh + 'px',
+              top: imageItem.adrHeight / imageItem.height * this.height + 'px'
+            }
+          },
+          {
+            type: 'text',
+            text: '2021-08-08',
+            css: {
+              left: imageItem.timeWidth / imageItem.width * canvasWitdh + 'px',
+              top: imageItem.timeHeight / imageItem.height * this.height + 'px'
             }
           }
         ]
