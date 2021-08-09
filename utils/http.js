@@ -6,13 +6,9 @@ const API = {
   updateUserInfo: baseUrl + 'updateUserInfo',
   toBeLover: baseUrl + 'toBeLover',
   breakup: baseUrl + 'breakup',
-  getArticle: baseUrl + 'getArticle',
-  getArticleFile: baseUrl + 'getArticleFile',
-  createName: baseUrl + 'createName',
-  getWxArticle: baseUrl + 'getWxArticle',
-  getRandArticle: baseUrl + 'getRandArticle',
-  getNameList: baseUrl + 'getNameList',
-  getSurnameList: baseUrl + 'getSurnameList'
+  getCardList: baseUrl + 'getCardList',
+  cardFinished: baseUrl + 'cardFinished',
+  cardEdit: baseUrl + 'cardEdit',
 }
 
 function http(opts) {

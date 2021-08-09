@@ -14,6 +14,14 @@ Component({
     title: {
       type: String,
       value: ''
+    },
+    adr: {
+      type: String,
+      value: ''
+    },
+    date: {
+      type: String,
+      value: ''
     }
   },
 
@@ -21,8 +29,6 @@ Component({
    * 组件的初始数据
    */
   data: {
-    adr: '',
-    date: '2021-08-04',
     loading: false
   },
 
@@ -47,9 +53,14 @@ Component({
       if (this.data.loading) return
       let { adr, date } = this.data
       adr = adr.trim()
-      if (adr === '') return
-      console.log(adr, date)
-      this.triggerEvent('save')
+      if (adr === '') {
+        wx.showToast({
+          title: '请填写完成地点',
+          icon: 'none',
+        })
+        return
+      }
+      this.triggerEvent('save', { adr: adr, date: date })
     }
   }
 })

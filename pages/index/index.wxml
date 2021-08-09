@@ -40,7 +40,7 @@
     </view>
   </view>
 
-  <userBar></userBar>
+  <!-- <userBar></userBar> -->
 
   <view class="cu-card case" data-url="hundred" bindtap="goPage">
     <view class="cu-item shadow">

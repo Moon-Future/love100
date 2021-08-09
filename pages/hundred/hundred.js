@@ -14,29 +14,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let swiperList = []
-    for (let i = 0, len = 100; i < len; i++) {
-      swiperList.push({
-        id: i,
-        title: '一起雪中漫步',
-        url: '/static/images/01.jpg',
-        // src: i < 3 ? '/static/images/01.jpg' : '',
-        width: 1350,
-        height: 2100,
-        adrWidth: 900,
-        adrHeight: 790,
-        timeWidth: 900,
-        timeHeight: 925,
-        avaWidth: 865,
-        avaHeight: 380,
-        left: 10000,
-        top: 10000,
-        finished: true
-      })
-    }
-    this.setData({
-      swiperList
-    })
+    
   },
 
   /**

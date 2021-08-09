@@ -21,7 +21,7 @@
   </swiper>
 </block>
   
-<finishForm show="{{modalShow}}" title="{{modalTitle}}" bind:hideModal="hideModal" bind:save="save"></finishForm>
+<finishForm show="{{modalShow}}" title="{{modalTitle}}" adr="{{formAdr}}" date="{{formDate}}" bind:hideModal="hideModal" bind:save="save"></finishForm>
 <draw show="{{drawShow}}" painterData="{{painterData}}" bind:onImgOK="onImgOK"></draw>
 
 <block wx:if="{{showType === 'list'}}">

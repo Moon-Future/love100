@@ -1,3 +1,4 @@
+const util = require('../../utils/util')
 const app = getApp()
 Component({
   options: {
@@ -7,10 +8,6 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    swiperList: {
-      type: Array,
-      value: []
-    },
     cardCur: {
       type: Number,
       value: 0
@@ -25,30 +22,33 @@ Component({
    * 组件的初始数据
    */
   data: {
+    swiperList: [],
     modalShow: false,
     modalTitle: '',
     painterData: {},
-    drawShow: false
+    drawShow: false,
+    formAdr: '',
+    formDate: ''
   },
 
   lifetimes: {
-    ready() {
+    async ready() {
       this.imageReady = {}
-      // let swiperList = this.data.swiperList
-      // let cardCur = this.data.cardCur
-      // swiperList[cardCur].src = swiperList[cardCur].url
-      // this.imageReady[cardCur] = true
-      // if (cardCur !== 0) {
-      //   swiperList[cardCur - 1].src = swiperList[cardCur - 1].url
-      //   this.imageReady[cardCur - 1] = true
-      // }
-      // if (cardCur !== swiperList.length - 1) {
-      //   swiperList[cardCur + 1].src = swiperList[cardCur + 1].url
-      //   this.imageReady[cardCur + 1] = true
-      // }
-      // this.setData({
-      //   swiperList
-      // })
+      let swiperList = []
+      let result = await wx.$http({
+        url: 'getCardList'
+      })
+      for (let i = 0, len = result.data.length; i < len; i++) {
+        swiperList.push({
+          ...result.data[i],
+          left: 10000,
+          top: 10000,
+          finished: false
+        })
+      }
+      this.setData({
+        swiperList
+      })
       this.setImage(this.data.cardCur)
     }
   },
@@ -144,12 +144,35 @@ Component({
       if (item.finished) {
         wx.showModal({
           content: '确定取消完成吗？',
-          success: (res) => {
+          success: async (res) => {
             if (res.confirm) {
+              let item = this.data.swiperList[this.selectIndex]
               let finished = `swiperList[${this.selectIndex}].finished`
-              this.setData({
-                [finished]: false
+              let adrField = `swiperList[${this.selectIndex}].adr`
+              let dateField = `swiperList[${this.selectIndex}].date`
+              let result = await wx.$http({
+                url: 'cardEdit',
+                data: {
+                  cardId: item.id,
+                  common: app.globalData.userInfo.common,
+                  adr: item.adr,
+                  date: item.date,
+                  delFlag: true
+                }
               })
+              if (result.message) {
+                wx.showToast({
+                  title: result.message,
+                  icon: 'none'
+                })
+              }
+              if (result.status === 1) {
+                this.setData({
+                  [finished]: false,
+                  [adrField]: '',
+                  [dateField]: '',
+                })
+              }
             }
           }
         })
@@ -157,13 +180,20 @@ Component({
         this.setData({
           [finished]: false,
           modalShow: item.finished ? false : true,
-          modalTitle: item.title
+          modalTitle: item.title,
+          formAdr: '',
+          formDate: util.formatTime(Date.now(), 'yyyy-MM-dd')
         })
       }
     },
     // 完成后编辑
     edit() {
-
+      let imageItem = this.data.swiperList[this.data.cardCur]
+      this.setData({
+        modalShow: true,
+        formAdr: imageItem.adr,
+        formDate: imageItem.date
+      })
     },
     // 绘图分享
     share() {
@@ -203,7 +233,7 @@ Component({
           },
           {
             type: 'text',
-            text: '中华人民共和国',
+            text: imageItem.adr,
             css: {
               width: canvasWitdh - imageItem.timeWidth / imageItem.width * canvasWitdh + 'px',
               left: imageItem.adrWidth / imageItem.width * canvasWitdh + 'px',
@@ -212,7 +242,7 @@ Component({
           },
           {
             type: 'text',
-            text: '2021-08-08',
+            text: imageItem.date,
             css: {
               left: imageItem.timeWidth / imageItem.width * canvasWitdh + 'px',
               top: imageItem.timeHeight / imageItem.height * this.height + 'px'
@@ -235,12 +265,35 @@ Component({
       })
     },
     // 表单保存
-    save() {
+    async save(e) {
+      let item = this.data.swiperList[this.selectIndex]
       let finished = `swiperList[${this.selectIndex}].finished`
-      this.setData({
-        [finished]: true,
-        modalShow: false
+      let adrField = `swiperList[${this.selectIndex}].adr`
+      let dateField = `swiperList[${this.selectIndex}].date`
+      let { adr, date } = e.detail
+      let result = await wx.$http({
+        url: item.finished ? 'cardEdit' : 'cardFinished',
+        data: {
+          cardId: item.id,
+          common: app.globalData.userInfo.common,
+          adr: adr,
+          date: date
+        }
       })
+      if (result.message) {
+        wx.showToast({
+          title: result.message,
+          icon: 'none'
+        })
+      }
+      if (result.status === 1) {
+        this.setData({
+          [finished]: true,
+          [adrField]: adr,
+          [dateField]: date,
+          modalShow: false
+        })
+      }
     }
   }
 })

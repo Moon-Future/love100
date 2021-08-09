@@ -20,11 +20,11 @@ Page({
         canIUseGetUserProfile: true
       })
     }
-    // options = {
-    //   id: '0710',
-    //   nickName: '媛媛',
-    //   avatarUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg'
-    // }
+    options = {
+      id: '0710',
+      nickName: '媛媛',
+      avatarUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg'
+    }
     // console.log('options', options)
 
     // wx.showToast({
@@ -150,7 +150,8 @@ Page({
       url: 'breakup',
       data: {
         id: userInfo.id,
-        lover: userInfo.lover
+        lover: userInfo.lover,
+        common: userInfo.common
       }
     })
     wx.showToast({
@@ -221,6 +222,7 @@ Page({
         icon: 'none'
       })
       if (result.status === 1) {
+        userInfo.common = result.data.common
         userInfo.lover = invitedFrom.id
         userInfo.loverNickName = invitedFrom.nickName
         userInfo.loverAvatarUrl = invitedFrom.avatarUrl
