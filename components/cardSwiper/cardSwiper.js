@@ -36,14 +36,27 @@ Component({
       this.imageReady = {}
       let swiperList = []
       let result = await wx.$http({
-        url: 'getCardList'
+        url: 'getCardList',
+        data: {
+          common: app.globalData.userInfo.common
+        }
       })
-      for (let i = 0, len = result.data.length; i < len; i++) {
+      let cardList = result.cardList
+      let finishedList = result.finishedList
+      let finishedMap = {}
+      finishedList.forEach(ele => {
+        finishedMap[ele.cardId] = ele
+      })
+      for (let i = 0, len = cardList.length; i < len; i++) {
+        let cardItem = cardList[i]
+        let finishedItem = finishedMap[cardItem.id] || { adr: '', date: '' }
         swiperList.push({
-          ...result.data[i],
+          ...cardItem,
+          adr: finishedItem.adr,
+          date: finishedItem.date,
           left: 10000,
           top: 10000,
-          finished: false
+          finished: finishedMap[cardItem.id] ? finishedItem.id : '',
         })
       }
       this.setData({
@@ -99,18 +112,18 @@ Component({
       let item = this.data.swiperList[index]
       let adrLeft = `swiperList[${index}].adrLeft`
       let adrTop = `swiperList[${index}].adrTop`
-      let timeLeft = `swiperList[${index}].timeLeft`
-      let timeTop = `swiperList[${index}].timeTop`
-      let avaLeft = `swiperList[${index}].avaLeft`
-      let avaTop = `swiperList[${index}].avaTop`
+      let dateLeft = `swiperList[${index}].dateLeft`
+      let dateTop = `swiperList[${index}].dateTop`
+      let fingerLeft = `swiperList[${index}].fingerLeft`
+      let fingerTop = `swiperList[${index}].fingerTop`
       if (this.width) {
         this.setData({
           [adrLeft]: item.adrWidth / item.width * this.width,
           [adrTop]: item.adrHeight / item.height * this.height,
-          [timeLeft]: item.timeWidth / item.width * this.width,
-          [timeTop]: item.timeHeight / item.height * this.height,
-          [avaLeft]: item.avaWidth / item.width * this.width,
-          [avaTop]: item.avaHeight / item.height * this.height
+          [dateLeft]: item.dateWidth / item.width * this.width,
+          [dateTop]: item.dateHeight / item.height * this.height,
+          [fingerLeft]: item.fingerWidth / item.width * this.width,
+          [fingerTop]: item.fingerHeight / item.height * this.height
         })
       } else {
         this.createSelectorQuery().select(`#image${index}`).boundingClientRect((rect) => {
@@ -119,10 +132,10 @@ Component({
           this.setData({
             [adrLeft]: item.adrWidth / item.width * this.width,
             [adrTop]: item.adrHeight / item.height * this.height,
-            [timeLeft]: item.timeWidth / item.width * this.width,
-            [timeTop]: item.timeHeight / item.height * this.height,
-            [avaLeft]: item.avaWidth / item.width * this.width,
-            [avaTop]: item.avaHeight / item.height * this.height
+            [dateLeft]: item.dateWidth / item.width * this.width,
+            [dateTop]: item.dateHeight / item.height * this.height,
+            [fingerLeft]: item.fingerWidth / item.width * this.width,
+            [fingerTop]: item.fingerHeight / item.height * this.height
           })
         }).exec()
       }
@@ -136,23 +149,23 @@ Component({
       this.triggerEvent('listSelect')
     },
     // 选择完成或取消
-    finished(e) {
-      let index = e.currentTarget.dataset.index
+    finished() {
+      let index = this.data.cardCur
       let finished = `swiperList[${index}].finished`
       let item = this.data.swiperList[index]
-      this.selectIndex = index
       if (item.finished) {
         wx.showModal({
           content: '确定取消完成吗？',
           success: async (res) => {
             if (res.confirm) {
-              let item = this.data.swiperList[this.selectIndex]
-              let finished = `swiperList[${this.selectIndex}].finished`
-              let adrField = `swiperList[${this.selectIndex}].adr`
-              let dateField = `swiperList[${this.selectIndex}].date`
+              let item = this.data.swiperList[index]
+              let finished = `swiperList[${index}].finished`
+              let adrField = `swiperList[${index}].adr`
+              let dateField = `swiperList[${index}].date`
               let result = await wx.$http({
                 url: 'cardEdit',
                 data: {
+                  finishedId: item.finished || '',
                   cardId: item.id,
                   common: app.globalData.userInfo.common,
                   adr: item.adr,
@@ -168,7 +181,7 @@ Component({
               }
               if (result.status === 1) {
                 this.setData({
-                  [finished]: false,
+                  [finished]: '',
                   [adrField]: '',
                   [dateField]: '',
                 })
@@ -178,7 +191,7 @@ Component({
         })
       } else {
         this.setData({
-          [finished]: false,
+          [finished]: '',
           modalShow: item.finished ? false : true,
           modalTitle: item.title,
           formAdr: '',
@@ -227,15 +240,15 @@ Component({
             css: {
               width: '120rpx',
               height: '120rpx',
-              left: imageItem.avaWidth / imageItem.width * canvasWitdh + 'px',
-              top: imageItem.avaHeight / imageItem.height * this.height + 'px'
+              left: imageItem.fingerWidth / imageItem.width * canvasWitdh + 'px',
+              top: imageItem.fingerHeight / imageItem.height * this.height + 'px'
             },
           },
           {
             type: 'text',
             text: imageItem.adr,
             css: {
-              width: canvasWitdh - imageItem.timeWidth / imageItem.width * canvasWitdh + 'px',
+              width: canvasWitdh - imageItem.dateWidth / imageItem.width * canvasWitdh + 'px',
               left: imageItem.adrWidth / imageItem.width * canvasWitdh + 'px',
               top: imageItem.adrHeight / imageItem.height * this.height + 'px'
             }
@@ -244,8 +257,8 @@ Component({
             type: 'text',
             text: imageItem.date,
             css: {
-              left: imageItem.timeWidth / imageItem.width * canvasWitdh + 'px',
-              top: imageItem.timeHeight / imageItem.height * this.height + 'px'
+              left: imageItem.dateWidth / imageItem.width * canvasWitdh + 'px',
+              top: imageItem.dateHeight / imageItem.height * this.height + 'px'
             }
           }
         ]
@@ -266,14 +279,16 @@ Component({
     },
     // 表单保存
     async save(e) {
-      let item = this.data.swiperList[this.selectIndex]
-      let finished = `swiperList[${this.selectIndex}].finished`
-      let adrField = `swiperList[${this.selectIndex}].adr`
-      let dateField = `swiperList[${this.selectIndex}].date`
+      let index = this.data.cardCur
+      let item = this.data.swiperList[index]
+      let finished = `swiperList[${index}].finished`
+      let adrField = `swiperList[${index}].adr`
+      let dateField = `swiperList[${index}].date`
       let { adr, date } = e.detail
       let result = await wx.$http({
         url: item.finished ? 'cardEdit' : 'cardFinished',
         data: {
+          finishedId: item.finished || '',
           cardId: item.id,
           common: app.globalData.userInfo.common,
           adr: adr,
@@ -288,7 +303,7 @@ Component({
       }
       if (result.status === 1) {
         this.setData({
-          [finished]: true,
+          [finished]: result.finishedId,
           [adrField]: adr,
           [dateField]: date,
           modalShow: false

@@ -28,7 +28,7 @@
   font-size: 46rpx;
   color: #fff;
 }
-.adr, .time {
+.adr, .date {
   position: absolute;
   font-size: 20rpx;
 }
