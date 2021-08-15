@@ -2,9 +2,7 @@
   "pages": [
     "pages/index/index",
     "pages/hundred/hundred",
-    "pages/logs/logs",
-    "pages/love/love",
-    "pages/draw/draw"
+    "pages/logs/logs"
   ],
   "window": {
     "backgroundTextStyle": "light",

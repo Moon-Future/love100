@@ -12,7 +12,8 @@ Page({
     CustomBar: app.globalData.CustomBar,
     updateModalShow: false,
     breakModalShow: false,
-    invitedModalShow: false
+    invitedModalShow: false,
+    invitedFrom: null
   },
   async onLoad(options) {
     if (wx.getUserProfile) {
@@ -20,18 +21,11 @@ Page({
         canIUseGetUserProfile: true
       })
     }
-    options = {
-      id: '0710',
-      nickName: '媛媛',
-      avatarUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg'
-    }
-    // console.log('options', options)
-
-    // wx.showToast({
-    //   title: JSON.stringify(options),
-    //   icon: 'success',
-    //   duration: 2000
-    // })
+    // options = {
+    //   id: '0710',
+    //   nickName: '媛媛',
+    //   avatarUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg'
+    // }
 
     const result = await this.login()
     this.setData({
@@ -40,22 +34,25 @@ Page({
         ...result.userInfo
       }
     })
-    wx.setStorageSync('userInfo', this.data.userInfo)
-    console.log('result', result)
+    this.setUserInfo(this.data.userInfo)
 
     if (options.id) {
-      this.invitedFrom = {
-        id: options.id,
-        nickName: options.nickName,
-        avatarUrl: options.avatarUrl
+      // 如果被人邀请进入
+      if (this.data.userInfo.lover !== options.id) {
+        this.setData({
+          invitedModalShow: true,
+          invitedFrom: {
+            id: options.id,
+            nickName: options.nickName,
+            avatarUrl: options.avatarUrl
+          }
+        })
       }
     }
-    // 如果被人邀请进入
-    if (this.invitedFrom && (this.data.userInfo.lover !== this.invitedFrom.id)) {
-      this.setData({
-        invitedModalShow: true
-      })
-    }
+  },
+  setUserInfo(userInfo) {
+    wx.setStorageSync('userInfo', userInfo)
+    app.globalData.userInfo = userInfo
   },
   getUserProfile(e) {
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
@@ -75,8 +72,8 @@ Page({
         })
         app.globalData.userInfo = this.data.userInfo
         this.updateUserInfo()
-        if (this.invitedFrom) {
-          this.invited()
+        if (this.data.invitedFrom) {
+          this.agree()
         }
       }
     })
@@ -96,39 +93,47 @@ Page({
     })
     app.globalData.userInfo = this.data.userInfo
     this.updateUserInfo()
-    if (this.invitedFrom) {
-      this.invited()
+    if (this.data.invitedFrom) {
+      this.agree()
     }
-  },
-  goPage(e) {
-    let url = e.currentTarget.dataset.url
-    wx.navigateTo({
-      url: `/pages/${url}/${url}`
-    })
   },
   // 登录
   login() {
     return new Promise((resolve, reject) => {
       wx.login({
         success: async (res) => {
-          const result = await wx.$http({
-            url: 'login',
-            data: {
-              code: res.code
-            }
-          })
-          resolve(result)
+          try {
+            const result = await wx.$http({
+              url: 'login',
+              data: {
+                code: res.code
+              }
+            })
+            resolve(result)
+          } catch(e) {
+            wx.showToast({
+              title: '服务器开小差啦😅',
+              icon: 'none'
+            })
+          }
         },
       })
     })
   },
   async updateUserInfo() {
-    const userInfo = this.data.userInfo
-    wx.setStorageSync('userInfo', userInfo)
-    await wx.$http({
-      url: 'updateUserInfo',
-      data: userInfo
-    })
+    try {
+      const userInfo = this.data.userInfo
+      this.setUserInfo(userInfo)
+      await wx.$http({
+        url: 'updateUserInfo',
+        data: userInfo
+      })
+    } catch(e) {
+      wx.showToast({
+        title: '服务器开小差啦😅',
+        icon: 'none'
+      })
+    }
   },
   // 用户触发更新信息
   updateUser() {
@@ -159,6 +164,7 @@ Page({
       icon: 'none'
     })
     if (result.status !== 1) return 
+    userInfo.common = ''
     userInfo.lover = ''
     userInfo.loverNickName = ''
     userInfo.loverAvatarUrl = ''
@@ -166,7 +172,7 @@ Page({
       userInfo,
       breakModalShow: false
     })
-    wx.setStorageSync('userInfo', userInfo)
+    this.setUserInfo(userInfo)
   },
   hideModal() {
     this.setData({
@@ -186,14 +192,14 @@ Page({
   },
   hideInvitedModal() {
     this.setData({
-      invitedModalShow: false
+      invitedModalShow: false,
+      invitedFrom: null
     })
   },
   // 同意邀请
   async agree() {
     let userInfo = this.data.userInfo
-    let invitedFrom = this.invitedFrom
-    console.log('已登录同意', userInfo, invitedFrom)
+    let invitedFrom = this.data.invitedFrom
     if (userInfo.lover) {
       if (userInfo.lover === invitedFrom.id) {
         wx.showToast({
@@ -210,6 +216,9 @@ Page({
         })
       }
     } else {
+      wx.showLoading({
+        mask: true
+      })
       let result = await wx.$http({
         url: 'toBeLover',
         data: {
@@ -217,6 +226,7 @@ Page({
           to: userInfo.id
         }
       })
+      wx.hideLoading()
       wx.showToast({
         title: result.message,
         icon: 'none'
@@ -230,23 +240,31 @@ Page({
           userInfo,
           invitedModalShow: false
         })
-        wx.setStorageSync('userInfo', userInfo)
+        this.setUserInfo(userInfo)
       }
     }
   },
   // 婉拒邀请
   refuse() {
-    console.log('婉拒')
     this.setData({
-      invitedModalShow: false
+      invitedModalShow: false,
+      invitedFrom: null
     })
   },
   onShareAppMessage(e) {
     const userInfo = this.data.userInfo
-    return {
-      title: '恋爱100件小事-臭宝，和我来一起完成吧',
-      path: `/pages/index/index?id=${userInfo.id}&nickName=${userInfo.nickName}&avatarUrl=${userInfo.avatarUrl}`,
-      imageUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-01.jpg'
+    if (e.from === 'button') {
+      return {
+        title: '【情侣100件事】-臭宝，和我来一起完成吧',
+        path: `/pages/index/index?id=${userInfo.id}&nickName=${userInfo.nickName}&avatarUrl=${userInfo.avatarUrl}`,
+        imageUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-01.jpg'
+      }
+    } else {
+      return {
+        title: '【情侣100件事】爱情，需要仪式感，100件关于我们的小故事',
+        path: `/pages/index/index`,
+        imageUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-01.jpg'
+      }
     }
   }
 })

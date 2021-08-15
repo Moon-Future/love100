@@ -1,4 +1,6 @@
 const util = require('../../utils/util')
+// const { cards } = require('./cardList')
+const { lazyImage } = require('./constants')
 const app = getApp()
 Component({
   options: {
@@ -33,36 +35,52 @@ Component({
 
   lifetimes: {
     async ready() {
-      this.imageReady = {}
-      let swiperList = []
-      let result = await wx.$http({
-        url: 'getCardList',
-        data: {
-          common: app.globalData.userInfo.common
+      try {
+        wx.showLoading({
+          title: '加载中'
+        })
+        this.imageReady = {}
+        let swiperList = []
+        let result = await wx.$http({
+          url: 'getCardList',
+          data: {
+            common: app.globalData.userInfo.common
+          }
+        })
+        wx.hideLoading()
+        let cardList = result.cardList
+        let finishedList = result.finishedList
+        let finishedMap = {}
+        finishedList.forEach(ele => {
+          finishedMap[ele.cardId] = ele
+        })
+        for (let i = 0, len = cardList.length; i < len; i++) {
+          let cardItem = cardList[i]
+          let finishedItem = finishedMap[cardItem.id] || { adr: '', date: '' }
+          swiperList.push({
+            ...cardItem,
+            src: lazyImage,
+            adr: finishedItem.adr,
+            date: finishedItem.date,
+            fingerLeft: 10000,
+            fingerTop: 10000,
+            imgOnload: false,
+            finished: finishedMap[cardItem.id] ? finishedItem.id : '',
+          })
         }
-      })
-      let cardList = result.cardList
-      let finishedList = result.finishedList
-      let finishedMap = {}
-      finishedList.forEach(ele => {
-        finishedMap[ele.cardId] = ele
-      })
-      for (let i = 0, len = cardList.length; i < len; i++) {
-        let cardItem = cardList[i]
-        let finishedItem = finishedMap[cardItem.id] || { adr: '', date: '' }
-        swiperList.push({
-          ...cardItem,
-          adr: finishedItem.adr,
-          date: finishedItem.date,
-          left: 10000,
-          top: 10000,
-          finished: finishedMap[cardItem.id] ? finishedItem.id : '',
+        this.setData({
+          swiperList
+        })
+        if (swiperList.length !== 0) {
+          this.setImage(this.data.cardCur)
+        }
+      } catch(e) {
+        wx.hideLoading()
+        wx.showToast({
+          title: '服务器开小差啦😅',
+          icon: 'none'
         })
       }
-      this.setData({
-        swiperList
-      })
-      this.setImage(this.data.cardCur)
     }
   },
 
@@ -102,7 +120,12 @@ Component({
       })
       this.posInfo(current)
     },
-    imageOnLoad() {
+    imageOnLoad(e) {
+      const index = e.currentTarget.dataset.index
+      let imgOnload = `swiperList[${index}].imgOnload`
+      this.setData({
+        [imgOnload]: true
+      })
       if (!this.width) {
         this.posInfo(this.data.cardCur)
       }
@@ -190,6 +213,13 @@ Component({
           }
         })
       } else {
+        if (!app.globalData.userInfo.lover) {
+          wx.showToast({
+            title: '请邀请对象一起完成哦~',
+            icon: 'none'
+          })
+          return
+        }
         this.setData({
           [finished]: '',
           modalShow: item.finished ? false : true,
@@ -209,11 +239,19 @@ Component({
       })
     },
     // 绘图分享
-    share() {
+    async share() {
       wx.showLoading({
         title: '图片生成中',
         mask: true
       })
+      let sentence = ''
+      try {
+        sentence = (await wx.$http({
+          url: 'getSentence'
+        })).data
+      } catch(e) {
+        sentence = ''
+      }
       let imageItem = this.data.swiperList[this.data.cardCur]
       let canvasWitdh = imageItem.width / imageItem.height * this.height
       let painterData = {
@@ -259,6 +297,28 @@ Component({
             css: {
               left: imageItem.dateWidth / imageItem.width * canvasWitdh + 'px',
               top: imageItem.dateHeight / imageItem.height * this.height + 'px'
+            }
+          },
+          // 底部二维码区域
+          {
+            type: 'image',
+            url: '../../static/images/barcode.jpg',
+            mode: 'scaleToFill',
+            css: {
+              width: '80px',
+              height: '80px',
+              right: '10px',
+              bottom: '10px'
+            },
+          },
+          {
+            type: 'text',
+            text: sentence,
+            css: {
+              width: canvasWitdh - 110 + 'px',
+              left: '10px',
+              top: this.height + 10 + 'px',
+              lineHeight: '14px'
             }
           }
         ]

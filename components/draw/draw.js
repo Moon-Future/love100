@@ -41,7 +41,7 @@ Component({
     saveImage() {
       wx.saveImageToPhotosAlbum({
         filePath: this.path,
-        success: (res) => {
+        success: () => {
           this.setData({
             modalShow: false
           })

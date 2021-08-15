@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "userBar": "/components/userBar/userBar"
+    "userBar": "/components/userBar/userBar",
+    "homeMenu": "/components/homeMenu/homeMenu"
   }
 }

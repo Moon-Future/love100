@@ -1,0 +1,35 @@
+<view class="cu-card case" data-url="hundred" bindtap="goPage">
+  <view class="cu-item shadow">
+    <view class="image">
+      <image class="menu-image" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-01.jpg" mode="aspectFill"></image>
+      <view class="cu-tag bg-pink">恋爱百分百</view>
+      <view class="cu-bar bg-shadeBottom">
+        <text class="text-cut">未来就是和你做有趣的事</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-card case" bindtap="goPage">
+  <view class="cu-item shadow">
+    <view class="image">
+      <image class="menu-image" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-02.jpg" mode="widthFix"></image>
+      <view class="cu-tag bg-pink">爱情承诺券</view>
+      <view class="cu-bar bg-shadeBottom">
+        <text class="text-cut">你的心愿全满足</text>
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="cu-card case" bindtap="goPage">
+  <view class="cu-item shadow">
+    <view class="image">
+      <image class="menu-image" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-03.jpg" mode="widthFix"></image>
+      <view class="cu-tag bg-pink">爱情纪念日</view>
+      <view class="cu-bar bg-shadeBottom">
+        <text class="text-cut">因为有你，平凡的一天，被赋予特殊意义</text>
+      </view>
+    </view>
+  </view>
+</view>

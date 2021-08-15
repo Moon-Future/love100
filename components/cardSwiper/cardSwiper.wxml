@@ -3,16 +3,18 @@
     <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
       <view class="swiper-item">
         <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="widthFix" bindload="imageOnLoad"></image>
-        <block wx:if="{{item.finished}}">
+        <block wx:if="{{item.finished && item.imgOnload}}">
           <view class="adr" style="left:{{item.adrLeft}}px;top:{{item.adrTop}}px">{{item.adr}}</view>
           <view class="date" style="left:{{item.dateLeft}}px;top:{{item.dateTop}}px">{{item.date}}</view>
           <image class="card-finger" style="left:{{item.fingerLeft}}px;top:{{item.fingerTop}}px" src="../../static/images/finger.png" dmode="cover"></image>
         </block>
       </view>
-      <view class="title-wrapper" bindtap="finished">
-        <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
-        <view class="title">{{index + 1}}. {{item.title}}</view>
-      </view>
+      <block wx:if="{{item.imgOnload}}">
+        <view class="title-wrapper" bindtap="finished">
+          <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
+          <view class="title">{{index + 1}}. {{item.title}}</view>
+        </view>
+      </block>
       <view class="flex-box" wx:if="{{item.finished && cardCur==index}}">
         <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">编辑</button>
         <button class="cu-btn margin-tb-sm bg-olive shadow btn" bindtap="share">分享</button>

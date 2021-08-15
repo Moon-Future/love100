@@ -36,23 +36,12 @@
       <block wx:else>
         <image class="userinfo-avatar" src="{{userInfo.loverAvatarUrl}}" mode="cover" bindtap="breakModal"></image>
       </block>
-      <view class="userinfo-nickname">{{userInfo.lover ? userInfo.loverNickName : '邀请TA'}}</view>
+      <view class="userinfo-nickname">{{userInfo.lover && userInfo.login ? userInfo.loverNickName : '邀请TA'}}</view>
     </view>
   </view>
 
   <!-- <userBar></userBar> -->
-
-  <view class="cu-card case" data-url="hundred" bindtap="goPage">
-    <view class="cu-item shadow">
-      <view class="image">
-        <image src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-01.jpg" mode="aspectFit"></image>
-        <view class="cu-tag bg-pink">恋爱百分百</view>
-        <view class="cu-bar bg-shadeBottom">
-          <text class="text-cut">感谢这个特殊的日子里有你</text>
-        </view>
-      </view>
-    </view>
-  </view>
+  <homeMenu></homeMenu>
 
   <view class="cu-modal bottom-modal update-modal {{updateModalShow || breakModalShow ? 'show' : ''}}">
     <view class="cu-dialog">
@@ -72,7 +61,7 @@
     </view>
   </view>
 
-  <view class="cu-modal invited-modal {{invitedModalShow ? 'show' : ''}}">
+  <view class="cu-modal invited-modal {{invitedModalShow ? 'show' : ''}}" wx:if="{{invitedFrom}}">
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="content">恋爱请柬</view>
@@ -81,8 +70,8 @@
         </view>
       </view>
       <view class="flex-box">
-        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-        <view class="userinfo-nickname">{{userInfo.nickName}}</view>
+        <image class="userinfo-avatar" src="{{invitedFrom.avatarUrl}}" mode="cover"></image>
+        <view class="userinfo-nickname">{{invitedFrom.nickName}}</view>
       </view>
       <view class="invited-text">邀请您成为TA的恋人，一起完成情侣100件小事</view>
       <view class="invited-btngrp">
