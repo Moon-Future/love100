@@ -253,10 +253,10 @@ Component({
         sentence = ''
       }
       let imageItem = this.data.swiperList[this.data.cardCur]
-      let canvasWitdh = imageItem.width / imageItem.height * this.height
+      let canvasWidth = imageItem.width / imageItem.height * this.height
       let painterData = {
         background: '#fff',
-        width: canvasWitdh + 'px',
+        width: canvasWidth + 'px',
         height: this.height + 100 + 'px',
         imageHeight: this.height + 100,
         borderRadius: '20rpx',
@@ -266,7 +266,7 @@ Component({
             url: imageItem.url,
             mode: 'scaleToFill',
             css: {
-              width: canvasWitdh + 'px',
+              width: canvasWidth + 'px',
               height: this.height + 'px',
               borderRadius: '20rpx 20rpx 0 0',
             },
@@ -278,7 +278,7 @@ Component({
             css: {
               width: '120rpx',
               height: '120rpx',
-              left: imageItem.fingerWidth / imageItem.width * canvasWitdh + 'px',
+              left: imageItem.fingerWidth / imageItem.width * canvasWidth + 'px',
               top: imageItem.fingerHeight / imageItem.height * this.height + 'px'
             },
           },
@@ -286,8 +286,8 @@ Component({
             type: 'text',
             text: imageItem.adr,
             css: {
-              width: canvasWitdh - imageItem.dateWidth / imageItem.width * canvasWitdh + 'px',
-              left: imageItem.adrWidth / imageItem.width * canvasWitdh + 'px',
+              width: canvasWidth - imageItem.dateWidth / imageItem.width * canvasWidth + 'px',
+              left: imageItem.adrWidth / imageItem.width * canvasWidth + 'px',
               top: imageItem.adrHeight / imageItem.height * this.height + 'px'
             }
           },
@@ -295,7 +295,7 @@ Component({
             type: 'text',
             text: imageItem.date,
             css: {
-              left: imageItem.dateWidth / imageItem.width * canvasWitdh + 'px',
+              left: imageItem.dateWidth / imageItem.width * canvasWidth + 'px',
               top: imageItem.dateHeight / imageItem.height * this.height + 'px'
             }
           },
@@ -315,7 +315,7 @@ Component({
             type: 'text',
             text: sentence,
             css: {
-              width: canvasWitdh - 110 + 'px',
+              width: canvasWidth - 110 + 'px',
               left: '10px',
               top: this.height + 10 + 'px',
               lineHeight: '14px'

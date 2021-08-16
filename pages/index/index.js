@@ -31,7 +31,8 @@ Page({
     this.setData({
       userInfo: {
         ...this.data.userInfo,
-        ...result.userInfo
+        ...result.userInfo,
+        login: result.userInfo.lover ? true : false
       }
     })
     this.setUserInfo(this.data.userInfo)
