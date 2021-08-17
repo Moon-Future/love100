@@ -1,6 +1,7 @@
 // index.js
 // 获取应用实例
 const app = getApp()
+const io = require('../../lib/weapp.socket.io')
 
 Page({
   data: {
@@ -21,6 +22,18 @@ Page({
         canIUseGetUserProfile: true
       })
     }
+
+    // const socket = io('http://localhost:5555/love100')
+
+    // socket.on('connect', function (data) {
+    //   console.log('connected', data)
+    // })
+
+    // socket.on('disconnect', function (data) {
+    //   console.log('disconnect', data)
+    //   socket.close()
+    // })
+
     // options = {
     //   id: '0710',
     //   nickName: '媛媛',
