@@ -1,8 +1,8 @@
 // index.js
 // 获取应用实例
 const app = getApp()
+const { HOST } = require('../../utils/http')
 const io = require('../../lib/weapp.socket.io')
-
 Page({
   data: {
     userInfo: app.globalData.userInfo || {},
@@ -17,18 +17,17 @@ Page({
     invitedFrom: null
   },
   async onLoad(options) {
+    wx.showToast({
+      title: 'load',
+      icon: 'none'
+    })
+
     if (wx.getUserProfile) {
       this.setData({
         canIUseGetUserProfile: true
       })
     }
-
-    // const socket = io('http://localhost:5555/love100')
-
-    // socket.on('connect', function (data) {
-    //   console.log('connected', data)
-    // })
-
+    
     // socket.on('disconnect', function (data) {
     //   console.log('disconnect', data)
     //   socket.close()
@@ -50,6 +49,13 @@ Page({
     })
     this.setUserInfo(this.data.userInfo)
 
+    wx.socket = io(`${HOST}/love100`, {
+      query: { userId: this.data.userInfo.id }
+    })
+    this.socketOn()
+
+    wx.socket.emit('agree', { userId: this.data.userInfo.id })
+
     if (options.id) {
       // 如果被人邀请进入
       if (this.data.userInfo.lover !== options.id) {
@@ -63,6 +69,32 @@ Page({
         })
       }
     }
+  },
+  socketOn() {
+    // 邀请后同意
+    wx.socket.on('agree', (e) => {
+      wx.showToast({
+        title: '对方已接受您的邀请',
+        icon: 'none'
+      })
+      console.log('agree', e)
+    })
+    // 对方已断开
+    wx.socket.on('break', (e) => {
+      wx.showToast({
+        title: '对方已和您断开',
+        icon: 'none'
+      })
+      console.log('break', e)
+    })
+    // 卡片事件完成情况
+    wx.socket.on('card', (e) => {
+      wx.showToast({
+        title: '对方已和您断开',
+        icon: 'none'
+      })
+      console.log('card', e)
+    })
   },
   setUserInfo(userInfo) {
     wx.setStorageSync('userInfo', userInfo)
@@ -240,6 +272,8 @@ Page({
           to: userInfo.id
         }
       })
+      // 通知对方
+      wx.socket.emit('agree', { userId: invitedFrom.id })
       wx.hideLoading()
       wx.showToast({
         title: result.message,

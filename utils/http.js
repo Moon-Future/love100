@@ -1,5 +1,5 @@
-const baseUrl = 'http://192.168.31.44:5555/api/wxLove100/'
-// const baseUrl = 'https://wxproject.cl8023.com/api/wxLove100/'
+const HOST = 'http://192.168.31.44:5555' || 'https://wxproject.cl8023.com'
+const baseUrl = `${HOST}/api/wxLove100/`
 
 const API = {
   login: baseUrl + 'login',
@@ -31,5 +31,6 @@ function http(opts) {
 }
 
 module.exports = {
-  http
+  http,
+  HOST
 }
