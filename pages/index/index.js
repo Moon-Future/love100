@@ -3,6 +3,7 @@
 const app = getApp()
 const { HOST } = require('../../utils/http')
 const io = require('../../lib/weapp.socket.io')
+const { $Message } = require('../../lib/iviewui')
 Page({
   data: {
     userInfo: app.globalData.userInfo || {},
@@ -14,24 +15,20 @@ Page({
     updateModalShow: false,
     breakModalShow: false,
     invitedModalShow: false,
-    invitedFrom: null
+    invitedFrom: null,
+    resultModalShow: false,
+    resultFrom: {}
   },
   async onLoad(options) {
-    wx.showToast({
-      title: 'load',
-      icon: 'none'
-    })
-
     if (wx.getUserProfile) {
       this.setData({
         canIUseGetUserProfile: true
       })
     }
-    
-    // socket.on('disconnect', function (data) {
-    //   console.log('disconnect', data)
-    //   socket.close()
-    // })
+
+    $Message({
+      content: '这是一条普通提醒'
+    })
 
     // options = {
     //   id: '0710',
@@ -54,7 +51,14 @@ Page({
     })
     this.socketOn()
 
-    wx.socket.emit('agree', { userId: this.data.userInfo.id })
+    // wx.socket.emit('agree', { 
+    //   agree: false,
+    //   userId: this.data.userInfo.id, 
+    //   nickName: '媛媛', 
+    //   avatarUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg',
+    //   id: '0710',
+    //   common: '222'
+    // })
 
     if (options.id) {
       // 如果被人邀请进入
@@ -71,21 +75,50 @@ Page({
     }
   },
   socketOn() {
-    // 邀请后同意
+    // 邀请后同意与否
     wx.socket.on('agree', (e) => {
-      wx.showToast({
-        title: '对方已接受您的邀请',
-        icon: 'none'
-      })
-      console.log('agree', e)
+      console.log('e', e)
+      let data = {
+        resultFrom: {
+          userId: e.id,
+          nickName: e.nickName,
+          avatarUrl: e.avatarUrl,
+          title: e.agree ? '恭喜恭喜' : '十动然拒',
+          text: e.agree ? '接受了您的邀请，请珍惜一路有 TA 的陪伴' : '十分感动，然后拒绝了您'
+        },
+        resultModalShow: true
+      }
+      if (e.agree) {
+        let userInfo = this.data.userInfo
+        userInfo.lover = e.id
+        userInfo.loverNickName = e.nickName
+        userInfo.loverAvatarUrl = e.avatarUrl
+        userInfo.common = e.common
+        data.userInfo = userInfo
+        this.setUserInfo(userInfo)
+      }
+      this.setData(data)
     })
     // 对方已断开
-    wx.socket.on('break', (e) => {
-      wx.showToast({
-        title: '对方已和您断开',
-        icon: 'none'
+    wx.socket.on('breakup', () => {
+      let userInfo = this.data.userInfo
+      let { lover, loverNickName, loverAvatarUrl } = userInfo
+      userInfo.lover = ''
+      userInfo.loverNickName = ''
+      userInfo.loverAvatarUrl = ''
+      userInfo.common = ''
+      this.setData({
+        resultFrom: {
+          userId: lover,
+          nickName: loverNickName,
+          avatarUrl: loverAvatarUrl,
+          title: '很遗憾',
+          text: '和您断开了联系，但我一直记得你们一起经历的风风雨雨'
+        },
+        resultModalShow: true,
+        userInfo
       })
-      console.log('break', e)
+      this.setUserInfo(userInfo)
     })
     // 卡片事件完成情况
     wx.socket.on('card', (e) => {
@@ -94,6 +127,11 @@ Page({
         icon: 'none'
       })
       console.log('card', e)
+    })
+  },
+  hideResultModal() {
+    this.setData({
+      resultModalShow: false
     })
   },
   setUserInfo(userInfo) {
@@ -197,6 +235,7 @@ Page({
   // 断开
   async breakup() {
     let userInfo = this.data.userInfo
+    let lover = userInfo.lover
     let result = await wx.$http({
       url: 'breakup',
       data: {
@@ -219,6 +258,7 @@ Page({
       breakModalShow: false
     })
     this.setUserInfo(userInfo)
+    wx.socket.emit('breakup', { userId: lover })
   },
   hideModal() {
     this.setData({
@@ -272,8 +312,6 @@ Page({
           to: userInfo.id
         }
       })
-      // 通知对方
-      wx.socket.emit('agree', { userId: invitedFrom.id })
       wx.hideLoading()
       wx.showToast({
         title: result.message,
@@ -289,15 +327,21 @@ Page({
           invitedModalShow: false
         })
         this.setUserInfo(userInfo)
+        // 通知对方
+        wx.socket.emit('agree', { agree: true, userId: invitedFrom.id, nickName: userInfo.nickName, avatarUrl: userInfo.avatarUrl, id: userInfo.id, common: userInfo.common })
       }
     }
   },
   // 婉拒邀请
   refuse() {
+    let userInfo = this.data.userInfo
+    let invitedFrom = this.data.invitedFrom
     this.setData({
       invitedModalShow: false,
       invitedFrom: null
     })
+    // 通知对方
+    wx.socket.emit('agree', { agree: false, userId: invitedFrom.id, nickName: userInfo.nickName, avatarUrl: userInfo.avatarUrl, id: userInfo.id })
   },
   onShareAppMessage(e) {
     const userInfo = this.data.userInfo

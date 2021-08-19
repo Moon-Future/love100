@@ -86,4 +86,22 @@
       </view>
     </view>
   </view>
+
+  <view class="cu-modal invited-modal {{resultModalShow ? 'show' : ''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">{{resultFrom.title}}</view>
+        <view class="action" bindtap="hideResultModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="flex-box">
+        <image class="userinfo-avatar" src="{{resultFrom.avatarUrl}}" mode="cover"></image>
+        <view class="userinfo-nickname">{{resultFrom.nickName}}</view>
+      </view>
+      <view class="invited-text">{{resultFrom.text}}</view>
+    </view>
+  </view>
+
+  <message id="message" />
 </view>

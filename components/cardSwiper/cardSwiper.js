@@ -74,7 +74,9 @@ Component({
         if (swiperList.length !== 0) {
           this.setImage(this.data.cardCur)
         }
+        this.socketOn()
       } catch(e) {
+        console.log(e)
         wx.hideLoading()
         wx.showToast({
           title: '服务器开小差啦😅',
@@ -88,6 +90,13 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    socketOn() {
+      // 卡片事件完成情况
+      wx.socket.on('card', (params) => {
+        console.log('params', params)
+        const { type, data } = params
+      })
+    },
     // 设置图片
     setImage(index) {
       let flag = false
