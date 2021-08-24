@@ -36,15 +36,26 @@ Page({
     //   avatarUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg'
     // }
 
-    const result = await this.login()
-    this.setData({
-      userInfo: {
-        ...this.data.userInfo,
-        ...result.userInfo,
-        login: result.userInfo.lover ? true : false
-      }
-    })
-    this.setUserInfo(this.data.userInfo)
+    try {
+      wx.showLoading()
+      const result = await this.login()
+      this.setData({
+        userInfo: {
+          ...this.data.userInfo,
+          ...result.userInfo,
+          login: result.userInfo.nickName ? true : false
+        }
+      })
+      this.setUserInfo(this.data.userInfo)
+      wx.hideLoading()
+    } catch(e) {
+      wx.hideLoading()
+      wx.showToast({
+        title: '服务器开小差啦😅',
+        icon: 'none'
+      })
+    }
+    
 
     wx.socket = io(`${HOST}/love100`, {
       query: { userId: this.data.userInfo.id }
@@ -75,6 +86,12 @@ Page({
     }
   },
   socketOn() {
+    wx.socket.on('connect', () => {
+      console.log('connected')
+    })
+    wx.socket.on('error', () => {
+      console.log('error')
+    })
     // 邀请后同意与否
     wx.socket.on('agree', (e) => {
       console.log('e', e)
@@ -101,6 +118,7 @@ Page({
     })
     // 对方已断开
     wx.socket.on('breakup', () => {
+      console.log('on breakup')
       let userInfo = this.data.userInfo
       let { lover, loverNickName, loverAvatarUrl } = userInfo
       userInfo.lover = ''
