@@ -1,8 +1,8 @@
-<view class="cu-card case userbar" data-url="hundred" bindtap="goPage">
+<view class="cu-card case userbar" data-url="message" bindtap="goPage">
   <view class="cu-item shadow">
     <view class="cu-bar">
-      <text class="text-cut">消息</text>
-      <text class="number-cut">20/100</text>
+      <text class="text-cut">未读消息</text>
+      <text class="number-cut">{{unreadLength}}/{{messageList.length}}</text>
     </view>
   </view>
 </view>

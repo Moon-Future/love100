@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container" style="height:{{Android ? '100%' : '100vh'}}">
   <view class="userinfo" style="margin-top:{{CustomBar}}px">
     <view class="user">
       <block wx:if="{{canIUseOpenData}}">
@@ -40,7 +40,7 @@
     </view>
   </view>
 
-  <!-- <userBar></userBar> -->
+  <userBar messageList="{{messageList}}" unreadLength="{{unreadLength}}"></userBar>
   <homeMenu></homeMenu>
 
   <view class="cu-modal bottom-modal update-modal {{updateModalShow || breakModalShow ? 'show' : ''}}">
@@ -103,5 +103,5 @@
     </view>
   </view>
 
-  <message id="message" />
+  <!-- <message id="message" /> -->
 </view>

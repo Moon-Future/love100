@@ -25,6 +25,7 @@ Component({
    */
   data: {
     swiperList: [],
+    finishedLength: 0,
     modalShow: false,
     modalTitle: '',
     painterData: {},
@@ -69,12 +70,12 @@ Component({
           })
         }
         this.setData({
-          swiperList
+          swiperList,
+          finishedLength: finishedList.length
         })
         if (swiperList.length !== 0) {
           this.setImage(this.data.cardCur)
         }
-        this.socketOn()
       } catch(e) {
         console.log(e)
         wx.hideLoading()
@@ -90,13 +91,6 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    socketOn() {
-      // 卡片事件完成情况
-      wx.socket.on('card', (params) => {
-        console.log('params', params)
-        const { type, data } = params
-      })
-    },
     // 设置图片
     setImage(index) {
       let flag = false
@@ -216,7 +210,10 @@ Component({
                   [finished]: '',
                   [adrField]: '',
                   [dateField]: '',
+                  finishedLength: this.data.finishedLength - 1
                 })
+              } else if (result.status === 0) {
+                this.updateUserInfo()
               }
             }
           }
@@ -350,6 +347,7 @@ Component({
     async save(e) {
       let index = this.data.cardCur
       let item = this.data.swiperList[index]
+      let finishedLength = this.data.finishedLength
       let finished = `swiperList[${index}].finished`
       let adrField = `swiperList[${index}].adr`
       let dateField = `swiperList[${index}].date`
@@ -375,9 +373,29 @@ Component({
           [finished]: result.finishedId,
           [adrField]: adr,
           [dateField]: date,
-          modalShow: false
+          modalShow: false,
+          finishedLength: item.finished ? finishedLength : (finishedLength + 1)
         })
+      } else if (result.status === 0) {
+        this.updateUserInfo()
       }
+    },
+    updateUserInfo() {
+      let swiperList = this.data.swiperList
+      let userInfo = app.globalData.userInfo
+      userInfo.common = ''
+      userInfo.lover = ''
+      userInfo.loverNickName = ''
+      userInfo.loverAvatarUrl = ''
+      wx.setStorageSync('userInfo', userInfo)
+      app.globalData.userInfo = userInfo
+      swiperList.forEach(ele => {
+        ele.finished = ''
+      })
+      this.setData({
+        swiperList,
+        modalShow: false
+      })
     }
   }
 })

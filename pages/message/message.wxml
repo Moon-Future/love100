@@ -1,0 +1,22 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText">返回</view>
+  <view slot="content">消息列表</view>
+</cu-custom>
+
+<view class="message-btn">
+  <view class="cu-btn bg-blue" bindtap="readAll" disabled>全部已读</view>
+</view>
+<view class="message-list">
+  <block wx:if="{{messageList.length}}">
+    <view class="message-item {{item.reador != 1 ? 'unread' : ''}}" wx:for="{{messageList}}" wx:key="index" data-index="{{index}}" bindtap="read">
+      <view class="message-title">{{index + 1}}. {{item.title}}</view>
+      <view class="message-content">{{item.content}}</view>
+      <view class="message-time">{{item.date}}</view>
+    </view>
+  </block>
+  <block wx:else>
+    <view class="message-item message-empty">
+      <view class="message-content">暂无数据</view>
+    </view>
+  </block>
+</view>

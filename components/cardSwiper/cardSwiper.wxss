@@ -1,5 +1,5 @@
 .card-swiper {
-  height: calc(100vh - 250rpx - env(safe-area-inset-bottom) / 2) !important;
+  height: calc(100vh - 280rpx - env(safe-area-inset-bottom) / 2) !important;
 }
 .card-swiper swiper-item {
   padding: 0rpx 0rpx 70rpx;
@@ -34,7 +34,7 @@
 }
 
 .list-wrapper {
-  height: calc(100vh - 250rpx - env(safe-area-inset-bottom) / 2) !important;
+  height: calc(100vh - 280rpx - env(safe-area-inset-bottom) / 2) !important;
   overflow: auto;
 }
 
@@ -68,4 +68,11 @@
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.finished-text {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20rpx;
+  color: #fff;
 }

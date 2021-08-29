@@ -10,11 +10,13 @@ App({
 
     wx.getSystemInfo({
       success: (e) => {
+        console.log(e)
         this.globalData.StatusBar = e.statusBarHeight
         let capsule = wx.getMenuButtonBoundingClientRect()
         if (capsule) {
           this.globalData.Custom = capsule
           this.globalData.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight
+          this.globalData.Android = e.system.includes('Android') ? true : false
         } else {
           this.globalData.CustomBar = e.statusBarHeight + 50
         }

@@ -7,7 +7,14 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    messageList: {
+      type: Array,
+      value: []
+    },
+    unreadLength: {
+      type: Number,
+      value: 0
+    }
   },
 
   /**
@@ -21,6 +28,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    goPage(e) {
+      let url = e.currentTarget.dataset.url
+      wx.navigateTo({
+        url: `/pages/${url}/${url}`
+      })
+    }
   }
 })

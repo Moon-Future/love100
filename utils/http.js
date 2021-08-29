@@ -10,11 +10,12 @@ const API = {
   cardFinished: baseUrl + 'cardFinished',
   cardEdit: baseUrl + 'cardEdit',
   getSentence: baseUrl + 'getSentence',
+  getMessage: baseUrl + 'getMessage',
+  readMessage: baseUrl + 'readMessage'
 }
 
 function http(opts) {
   const { url, data, method } = opts
-  
   return new Promise((resolve, reject) => {
     wx.request({
       url: API[url],
