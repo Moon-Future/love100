@@ -33,3 +33,15 @@
     </view>
   </view>
 </view>
+
+<view class="cu-card case" wx:if="{{controlMap.author}}">
+  <view class="cu-item shadow">
+    <view class="image">
+      <image class="menu-image" src="../../static/images/mycode.jpg" mode="widthFix"></image>
+      <view class="cu-tag bg-pink">反馈与建议</view>
+      <view class="cu-bar bg-shadeBottom">
+        <text class="text-cut">因为有你，平凡的一天，被赋予特殊意义</text>
+      </view>
+    </view>
+  </view>
+</view>

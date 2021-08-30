@@ -18,7 +18,8 @@ Page({
     resultModalShow: false,
     resultFrom: {},
     messageList: [],
-    unreadLength: 0
+    unreadLength: 0,
+    controlMap: {}
   },
   async onShow() {
     const userInfo = wx.getStorageSync('userInfo')
@@ -40,7 +41,8 @@ Page({
     //   nickName: '媛媛',
     //   avatarUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg'
     // }
-    
+
+    await this.getControl()
     await this.getUserInfoFromDB()
 
     if (options.id) {
@@ -57,12 +59,20 @@ Page({
       }
     }
   },
+  async getControl() {
+    try {
+      const controlResult = await wx.$http({ url: 'getControl' })
+      this.setData({ controlMap: controlResult.controlMap })
+    } catch(e) {}
+  },
   async getUserInfoFromDB() {
     try {
       wx.showLoading({
         title: '加载中'
       })
       const result = await this.login()
+      result.userInfo.loverAvatarUrl = result.userInfo.loverAvatarUrl || ''
+      result.userInfo.loverNickName = result.userInfo.loverNickName || ''
       this.setData({
         userInfo: {
           ...this.data.userInfo,
@@ -82,9 +92,6 @@ Page({
   },
   async getMessage() {
     try {
-      wx.showLoading({
-        title: '加载中'
-      })
       const result = await wx.$http({
         url: 'getMessage',
         data: {
@@ -100,9 +107,7 @@ Page({
       })
       app.globalData.messageList = result.messageList
       this.setData({ messageList: result.messageList, unreadLength })
-      wx.hideLoading()
     } catch(e) {
-      wx.hideLoading()
       wx.showToast({
         title: '服务器开小差啦😅',
         icon: 'none'
@@ -294,7 +299,7 @@ Page({
       })
       wx.hideLoading()
       wx.showToast({
-        title: result.message,
+        title: userInfo.id === invitedFrom.id ? '即使没有TA，我也能一路向前' : result.message,
         icon: 'none'
       })
       if (result.status === 1) {
@@ -312,6 +317,13 @@ Page({
   },
   // 婉拒邀请
   refuse() {
+    wx.$http({
+      url: 'refuse',
+      data: {
+        userInfo: this.data.userInfo,
+        invitedFrom: this.data.invitedFrom
+      }
+    })
     this.setData({
       invitedModalShow: false,
       invitedFrom: null
@@ -339,6 +351,7 @@ Page({
   async onPullDownRefresh() {
     await this.refresh()
     await this.getMessage()
+    await this.getControl()
     wx.stopPullDownRefresh()
   }
 })

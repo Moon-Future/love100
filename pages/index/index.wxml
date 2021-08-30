@@ -41,7 +41,7 @@
   </view>
 
   <userBar messageList="{{messageList}}" unreadLength="{{unreadLength}}"></userBar>
-  <homeMenu></homeMenu>
+  <homeMenu controlMap="{{controlMap}}"></homeMenu>
 
   <view class="cu-modal bottom-modal update-modal {{updateModalShow || breakModalShow ? 'show' : ''}}">
     <view class="cu-dialog">

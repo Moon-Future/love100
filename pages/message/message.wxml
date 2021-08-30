@@ -3,11 +3,11 @@
   <view slot="content">消息列表</view>
 </cu-custom>
 
-<view class="message-btn">
-  <view class="cu-btn bg-blue" bindtap="readAll" disabled>全部已读</view>
-</view>
 <view class="message-list">
   <block wx:if="{{messageList.length}}">
+    <view class="message-btn">
+      <view class="cu-btn bg-blue" bindtap="readAll" disabled>全部已读</view>
+    </view>
     <view class="message-item {{item.reador != 1 ? 'unread' : ''}}" wx:for="{{messageList}}" wx:key="index" data-index="{{index}}" bindtap="read">
       <view class="message-title">{{index + 1}}. {{item.title}}</view>
       <view class="message-content">{{item.content}}</view>

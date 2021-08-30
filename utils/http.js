@@ -1,4 +1,5 @@
-const HOST = 'http://192.168.31.44:5555' || 'https://wxproject.cl8023.com'
+// const HOST = 'http://192.168.31.44:5555'
+const HOST = 'https://wxproject.cl8023.com'
 const baseUrl = `${HOST}/api/wxLove100/`
 
 const API = {
@@ -11,7 +12,9 @@ const API = {
   cardEdit: baseUrl + 'cardEdit',
   getSentence: baseUrl + 'getSentence',
   getMessage: baseUrl + 'getMessage',
-  readMessage: baseUrl + 'readMessage'
+  readMessage: baseUrl + 'readMessage',
+  getControl: baseUrl + 'getControl',
+  refuse: baseUrl + 'refuse'
 }
 
 function http(opts) {

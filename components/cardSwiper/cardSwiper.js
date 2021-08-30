@@ -188,6 +188,10 @@ Component({
               let finished = `swiperList[${index}].finished`
               let adrField = `swiperList[${index}].adr`
               let dateField = `swiperList[${index}].date`
+              wx.showLoading({
+                title: '正在保存',
+                mask: true
+              })
               let result = await wx.$http({
                 url: 'cardEdit',
                 data: {
@@ -196,9 +200,12 @@ Component({
                   common: app.globalData.userInfo.common,
                   adr: item.adr,
                   date: item.date,
-                  delFlag: true
+                  delFlag: true,
+                  userInfo: app.globalData.userInfo,
+                  cardTitle: item.title
                 }
               })
+              wx.hideLoading()
               if (result.message) {
                 wx.showToast({
                   title: result.message,
@@ -352,6 +359,10 @@ Component({
       let adrField = `swiperList[${index}].adr`
       let dateField = `swiperList[${index}].date`
       let { adr, date } = e.detail
+      wx.showLoading({
+        title: '正在保存',
+        mask: true
+      })
       let result = await wx.$http({
         url: item.finished ? 'cardEdit' : 'cardFinished',
         data: {
@@ -359,9 +370,12 @@ Component({
           cardId: item.id,
           common: app.globalData.userInfo.common,
           adr: adr,
-          date: date
+          date: date,
+          userInfo: app.globalData.userInfo,
+          cardTitle: item.title
         }
       })
+      wx.hideLoading()
       if (result.message) {
         wx.showToast({
           title: result.message,
