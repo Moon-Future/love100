@@ -119,7 +119,7 @@ Component({
       let current = e.detail.current
       this.setImage(current)
       this.setData({
-        cardCur: e.detail.current
+        cardCur: current
       })
       this.posInfo(current)
     },
@@ -168,10 +168,12 @@ Component({
     },
     // 列表选择
     listSelect(e) {
+      let cardCur = e.currentTarget.dataset.index
+      this.setImage(cardCur)
       this.setData({
-        cardCur: e.currentTarget.dataset.index
+        cardCur: cardCur
       })
-      this.setImage(this.data.cardCur)
+      this.posInfo(cardCur)
       this.triggerEvent('listSelect')
     },
     // 选择完成或取消

@@ -1,39 +1,35 @@
 <div class="finished-text">
   {{finishedLength}} / {{swiperList.length}}
 </div>
-<block wx:if="{{showType === 'card'}}">
-  <swiper class="card-swiper" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff" current="{{cardCur}}">
-    <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
-      <view class="swiper-item">
-        <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="widthFix" bindload="imageOnLoad"></image>
-        <block wx:if="{{item.finished && item.imgOnload}}">
-          <view class="adr" style="left:{{item.adrLeft}}px;top:{{item.adrTop}}px">{{item.adr}}</view>
-          <view class="date" style="left:{{item.dateLeft}}px;top:{{item.dateTop}}px">{{item.date}}</view>
-          <image class="card-finger" style="left:{{item.fingerLeft}}px;top:{{item.fingerTop}}px" src="../../static/images/finger.png" dmode="cover"></image>
-        </block>
-      </view>
-      <block wx:if="{{item.imgOnload}}">
-        <view class="title-wrapper" bindtap="finished">
-          <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
-          <view class="title">{{index + 1}}. {{item.title}}</view>
-        </view>
+<swiper class="card-swiper" hidden="{{showType === 'list'}}" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff" current="{{cardCur}}">
+  <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
+    <view class="swiper-item">
+      <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="widthFix" bindload="imageOnLoad"></image>
+      <block wx:if="{{item.finished && item.imgOnload}}">
+        <view class="adr" style="left:{{item.adrLeft}}px;top:{{item.adrTop}}px">{{item.adr}}</view>
+        <view class="date" style="left:{{item.dateLeft}}px;top:{{item.dateTop}}px">{{item.date}}</view>
+        <image class="card-finger" style="left:{{item.fingerLeft}}px;top:{{item.fingerTop}}px" src="../../static/images/finger.png" dmode="cover"></image>
       </block>
-      <view class="flex-box" wx:if="{{item.finished && cardCur==index}}">
-        <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">编辑</button>
-        <button class="cu-btn margin-tb-sm bg-olive shadow btn" bindtap="share">分享</button>
+    </view>
+    <block wx:if="{{item.imgOnload}}">
+      <view class="title-wrapper" bindtap="finished">
+        <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
+        <view class="title">{{index + 1}}. {{item.title}}</view>
       </view>
-    </swiper-item>
-  </swiper>
-</block>
+    </block>
+    <view class="flex-box" wx:if="{{item.finished && cardCur==index}}">
+      <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">编辑</button>
+      <button class="cu-btn margin-tb-sm bg-olive shadow btn" bindtap="share">分享</button>
+    </view>
+  </swiper-item>
+</swiper>
   
 <finishForm show="{{modalShow}}" title="{{modalTitle}}" adr="{{formAdr}}" date="{{formDate}}" bind:hideModal="hideModal" bind:save="save"></finishForm>
 <draw show="{{drawShow}}" painterData="{{painterData}}" bind:onImgOK="onImgOK"></draw>
 
-<block wx:if="{{showType === 'list'}}">
-  <view class="list-wrapper">
-    <view class="list-item" wx:for="{{swiperList}}" wx:key="index" data-index="{{index}}" bindtap="listSelect">
-      <view class="list-icon icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
-      <view class="list-title">{{index + 1}}. {{item.title}}</view>
-    </view>
+<view class="list-wrapper" hidden="{{showType === 'card'}}">
+  <view class="list-item" wx:for="{{swiperList}}" wx:key="index" data-index="{{index}}" bindtap="listSelect">
+    <view class="list-icon icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
+    <view class="list-title">{{index + 1}}. {{item.title}}</view>
   </view>
-</block>
+</view>
