@@ -1,0 +1,30 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">问题反馈</view>
+</cu-custom>
+
+<view class="wrapper">
+  <view class="title">分类标签</view>
+  <view class="types">
+    <view class="type {{active === index ? 'active' : ''}}" wx:for="{{types}}" wx:key="id" data-index="{{index}}" bindtap="changeTab">
+      {{item.name}}
+    </view>
+  </view>
+</view>
+
+<view class="wrapper">
+  <view class="title">我要反馈</view>
+  <textarea class="textarea" maxlength="-1" bindinput="changeTextarea" placeholder="在这里留下您宝贵的意见..."></textarea>
+</view>
+
+<view class="wrapper">
+  <view class="title">联系方式</view>
+  <input class="input" bindinput="changeInput" placeholder="输入联系方式（电话/微信/邮箱）"></input>
+</view>
+
+<view class="wrapper">
+  <view class="title">作者</view>
+  <view class="text">v: cl236338364</view>
+</view>
+
+<view class="btn-submit cubtn bg-blue shadow" bindtap="submit">提交</view>

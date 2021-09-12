@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/hundred/hundred",
     "pages/logs/logs",
-    "pages/message/message"
+    "pages/message/message",
+    "pages/suggest/suggest",
+    "pages/promise/promise"
   ],
   "window": {
     "backgroundTextStyle": "light",

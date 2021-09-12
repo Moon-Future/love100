@@ -190,39 +190,47 @@ Component({
               let finished = `swiperList[${index}].finished`
               let adrField = `swiperList[${index}].adr`
               let dateField = `swiperList[${index}].date`
-              wx.showLoading({
-                title: '正在保存',
-                mask: true
-              })
-              let result = await wx.$http({
-                url: 'cardEdit',
-                data: {
-                  finishedId: item.finished || '',
-                  cardId: item.id,
-                  common: app.globalData.userInfo.common,
-                  adr: item.adr,
-                  date: item.date,
-                  delFlag: true,
-                  userInfo: app.globalData.userInfo,
-                  cardTitle: item.title
+              try {
+                wx.showLoading({
+                  title: '正在保存',
+                  mask: true
+                })
+                let result = await wx.$http({
+                  url: 'cardEdit',
+                  data: {
+                    finishedId: item.finished || '',
+                    cardId: item.id,
+                    common: app.globalData.userInfo.common,
+                    adr: item.adr,
+                    date: item.date,
+                    delFlag: true,
+                    userInfo: app.globalData.userInfo,
+                    cardTitle: item.title
+                  }
+                })
+                wx.hideLoading()
+                if (result.message) {
+                  wx.showToast({
+                    title: result.message,
+                    icon: 'none'
+                  })
                 }
-              })
-              wx.hideLoading()
-              if (result.message) {
+                if (result.status === 1) {
+                  this.setData({
+                    [finished]: '',
+                    [adrField]: '',
+                    [dateField]: '',
+                    finishedLength: this.data.finishedLength - 1
+                  })
+                } else if (result.status === 0) {
+                  this.updateUserInfo()
+                }
+              } catch(e) {
+                wx.hideLoading()
                 wx.showToast({
-                  title: result.message,
+                  title: '服务器开小差啦😅',
                   icon: 'none'
                 })
-              }
-              if (result.status === 1) {
-                this.setData({
-                  [finished]: '',
-                  [adrField]: '',
-                  [dateField]: '',
-                  finishedLength: this.data.finishedLength - 1
-                })
-              } else if (result.status === 0) {
-                this.updateUserInfo()
               }
             }
           }
@@ -361,39 +369,47 @@ Component({
       let adrField = `swiperList[${index}].adr`
       let dateField = `swiperList[${index}].date`
       let { adr, date } = e.detail
-      wx.showLoading({
-        title: '正在保存',
-        mask: true
-      })
-      let result = await wx.$http({
-        url: item.finished ? 'cardEdit' : 'cardFinished',
-        data: {
-          finishedId: item.finished || '',
-          cardId: item.id,
-          common: app.globalData.userInfo.common,
-          adr: adr,
-          date: date,
-          userInfo: app.globalData.userInfo,
-          cardTitle: item.title
+      try {
+        wx.showLoading({
+          title: '正在保存',
+          mask: true
+        })
+        let result = await wx.$http({
+          url: item.finished ? 'cardEdit' : 'cardFinished',
+          data: {
+            finishedId: item.finished || '',
+            cardId: item.id,
+            common: app.globalData.userInfo.common,
+            adr: adr,
+            date: date,
+            userInfo: app.globalData.userInfo,
+            cardTitle: item.title
+          }
+        })
+        wx.hideLoading()
+        if (result.message) {
+          wx.showToast({
+            title: result.message,
+            icon: 'none'
+          })
         }
-      })
-      wx.hideLoading()
-      if (result.message) {
+        if (result.status === 1) {
+          this.setData({
+            [finished]: result.finishedId,
+            [adrField]: adr,
+            [dateField]: date,
+            modalShow: false,
+            finishedLength: item.finished ? finishedLength : (finishedLength + 1)
+          })
+        } else if (result.status === 0) {
+          this.updateUserInfo()
+        }
+      } catch(e) {
+        wx.hideLoading()
         wx.showToast({
-          title: result.message,
+          title: '服务器开小差啦😅',
           icon: 'none'
         })
-      }
-      if (result.status === 1) {
-        this.setData({
-          [finished]: result.finishedId,
-          [adrField]: adr,
-          [dateField]: date,
-          modalShow: false,
-          finishedLength: item.finished ? finishedLength : (finishedLength + 1)
-        })
-      } else if (result.status === 0) {
-        this.updateUserInfo()
       }
     },
     updateUserInfo() {
