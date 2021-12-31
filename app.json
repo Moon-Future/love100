@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/festival/festival",
     "pages/index/index",
     "pages/hundred/hundred",
     "pages/logs/logs",

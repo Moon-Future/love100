@@ -1,0 +1,11 @@
+<cu-custom isBack="{{true}}"></cu-custom>
+
+<view>
+  <calendar></calendar>
+</view>
+  
+
+<view class="bottom-wrapper">
+  <icon icon="../../static/icon/roundadd.png" class="roundadd" />
+</view>
+  

@@ -1,0 +1,74 @@
+<!--components/month/month.wxml-->
+<view class="date-wrapper">
+  <view class="year-month">
+    <picker class="picker-wrapper" mode="date" value="{{date}}" start="1900-1-1" end="2100-12-31" bindchange="bindDateChange">
+      <text class="time">{{year}}年{{month}}月</text>
+      <text class="iconfont icon-arrowdown"></text>
+    </picker>
+    <view class="date">
+      <view class="date-time">
+        <text class="date-day">{{day}}</text>
+        <view class="date-week" hidden="{{!dateInfo.astro}}">
+          <text>星期{{weeks[week]}}({{dateInfo.astro}})</text>
+          <text>{{dateInfo.IMonthCn}}{{dateInfo.IDayCn}}</text>
+          <text>{{dateInfo.gzYear}}{{dateInfo.gzMonth}}{{dateInfo.gzDay}}</text>
+          <text class="festival-color">{{festival}}</text>
+        </view>
+      </view>
+      <view class="animal">
+        <!-- <text>{{dateInfo.Animal}}</text> -->
+        <image wx:if="{{dateInfo.Animal}}" class="animal-img" src="../../images/{{animalsImg[dateInfo.Animal]}}.png"></image>
+      </view>
+      <view class="date-now">
+        <text class="data-now-text" bindtap="backToday">{{now ? '今' : '☺'}}</text>
+        <text class="iconfont icon-loudou" bindtap="gotoCountdown"></text>
+        <button wx:if="{{itemSelf}}" open-type="getUserInfo" class="iconfont icon-memory" bindgetuserinfo="goself"></button>
+      </view>
+    </view>
+  </view>
+  <view class="week">
+    <text class="week-item {{index == 5 || index == 6 ? 'week-item-rest' : ''}}" wx:for="{{weeks}}" wx:key="index">
+      {{item}}
+    </text>
+  </view>
+  <swiper circular="true" class="day" duration="{{duration}}" current="{{current}}" bindchange="changeTab" bindanimationfinish="animationfinish" style="height:{{swiperHieght}}px">
+
+    <swiper-item>
+      <view class="day-row {{current == 0 ? '' : 'hide-swiper'}}" wx:for="{{prevDays}}" wx:key="index" wx:for-item="arr">
+        <view 
+          class="day-col {{item.prev || item.next ? 'other-month' : ''}} {{item.year == year && item.month == month && item.day == day && current == 0 ? 'day-col-active' : ''}} {{ item.year == year && (holidays[item.month + '-' + item.day] || workdays[item.month + '-' + item.day]) ? 'holidays' : '' }}" wx:for="{{arr}}" wx:key="index" bindtap="selectDay" data-info="{{item}}">
+          <text wx:if="{{item.year == year && holidays[item.month + '-' + item.day]}}" class="holiday-text">休</text>
+          <text wx:if="{{item.year == year && workdays[item.month + '-' + item.day]}}" class="workday-text">班</text>
+          <text class="day-col-num">{{item.day}}</text>
+          <text class="day-col-lunar {{(item.festival || item.lunarFestival || item.term) && !item.prev && !item.next ? 'day-col-festival' : ''}} {{item.year == year && item.month == month && item.day == day && current == 0 ? 'day-col-active' : ''}}">{{item.festival || item.lunarFestival || item.term || item.lunar}}</text>
+        </view>
+      </view>
+    </swiper-item>
+
+    <swiper-item>
+      <view class="day-row {{current == 1 ? '' : 'hide-swiper'}}" wx:for="{{days}}" wx:key="index" wx:for-item="arr">
+        <view class="day-col {{item.prev || item.next ? 'other-month' : ''}} {{item.year == year && item.month == month && item.day == day && current == 1 ? 'day-col-active' : ''}} {{ item.year == year && (holidays[item.month + '-' + item.day] || workdays[item.month + '-' + item.day]) ? 'holidays' : '' }}" wx:for="{{arr}}" wx:key="index" bindtap="selectDay" data-info="{{item}}">
+          <text wx:if="{{item.year == year && holidays[item.month + '-' + item.day]}}" class="holiday-text">休</text>
+          <text wx:if="{{item.year == year && workdays[item.month + '-' + item.day]}}" class="workday-text">班</text>
+          <text class="day-col-num">{{item.day}}</text>
+          <text class="day-col-lunar {{(item.festival || item.lunarFestival || item.term) && !item.prev && !item.next ? 'day-col-festival' : ''}} {{item.year == year && item.month == month && item.day == day && current == 1 ? 'day-col-active' : ''}}">{{item.festival || item.lunarFestival || item.term || item.lunar}}</text>
+        </view>
+      </view>
+    </swiper-item>
+
+    <swiper-item>
+      <view class="day-row {{current == 2 ? '' : 'hide-swiper'}}" wx:for="{{nextDays}}" wx:key="index" wx:for-item="arr">
+        <view class="day-col {{item.prev || item.next ? 'other-month' : ''}} {{item.year == year && item.month == month && item.day == day && current == 2 ? 'day-col-active' : ''}} {{ item.year == year && (holidays[item.month + '-' + item.day] || workdays[item.month + '-' + item.day]) ? 'holidays' : '' }}" wx:for="{{arr}}" wx:key="index" bindtap="selectDay" data-info="{{item}}">
+          <text wx:if="{{item.year == year && holidays[item.month + '-' + item.day]}}" class="holiday-text">休</text>
+          <text wx:if="{{item.year == year && workdays[item.month + '-' + item.day]}}" class="workday-text">班</text>
+          <text class="day-col-num">{{item.day}}</text>
+          <text class="day-col-lunar {{(item.festival || item.lunarFestival || item.term) && !item.prev && !item.next ? 'day-col-festival' : ''}} {{item.year == year && item.month == month && item.day == day && current == 2 ? 'day-col-active' : ''}}">{{item.festival || item.lunarFestival || item.term || item.lunar}}</text>
+        </view>
+      </view>
+    </swiper-item>
+
+  </swiper>
+  <view class="plan-wrapper">
+    <text wx:for="{{holidayPlan[month + '-' + day]}}" wx:key="index">{{item}}</text>
+  </view>
+</view>
