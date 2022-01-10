@@ -6,15 +6,6 @@ Page({
    */
   data: {
     swiperList: [],
-    cardCur: 0,
-    showType: 'card'
-  },
-
-  typeChange(e) {
-    const type = e.currentTarget.dataset.type
-    this.setData({
-      showType: type
-    })
   },
 
   listSelect() {

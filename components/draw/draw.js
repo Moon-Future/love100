@@ -1,4 +1,5 @@
 const app = getApp()
+const { setNavBar } = require('../../utils/util')
 Component({
   options: {
     addGlobalClass: true
@@ -24,6 +25,15 @@ Component({
     modalShow: false,
     imageSrc: '',
     CustomBar: app.globalData.CustomBar
+  },
+
+  lifetimes: {
+    ready() {
+      setNavBar(app.globalData)
+      this.setData({
+        CustomBar: app.globalData.CustomBar
+      })
+    }
   },
 
   /**

@@ -70,9 +70,32 @@
   left: 0;
 }
 
-.finished-text {
+.card-menu {
   display: flex;
   justify-content: center;
-  margin-bottom: 20rpx;
+  align-items: center;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+
+.show-type {
+  display: flex;
+  justify-content: space-around;
+}
+
+.show-type .icon {
+  font-size: 50rpx;
   color: #fff;
+  margin-right: 10px;
+}
+
+.show-type .icon.icon-active {
+  color: #fbbd08;
+  font-weight: bold;
+}
+
+.finished-text {
+  position: absolute;
+  color: #fff;
+  right: 10px;
 }

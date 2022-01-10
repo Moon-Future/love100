@@ -1,4 +1,5 @@
-const app = getApp();
+const app = getApp()
+const { setNavBar } = require('../../utils/util')
 Component({
   /**
    * 组件的一些选项
@@ -36,6 +37,18 @@ Component({
     CustomBar: app.globalData.CustomBar,
     Custom: app.globalData.Custom
   },
+
+  lifetimes: {
+    ready() {
+      setNavBar(app.globalData)
+      this.setData({
+        StatusBar: app.globalData.StatusBar,
+        CustomBar: app.globalData.CustomBar,
+        Custom: app.globalData.Custom
+      })
+    }
+  },
+
   /**
    * 组件的方法列表
    */

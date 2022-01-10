@@ -33,6 +33,18 @@ const formatNumber = n => {
   return n[1] ? n : `0${n}`
 }
 
+const setNavBar = (globalData) => {
+  if (globalData.CustomWidth) return
+  const systemInfo = wx.getSystemInfoSync()
+  const menuButtonInfo = wx.getMenuButtonBoundingClientRect()
+  globalData.StatusBar = systemInfo.statusBarHeight
+  globalData.Custom = menuButtonInfo;
+  globalData.CustomBar = menuButtonInfo.bottom + menuButtonInfo.top - systemInfo.statusBarHeight
+  globalData.Android = systemInfo.system.includes('Android') ? true : false
+  globalData.CustomWidth = menuButtonInfo.width
+}
+
 module.exports = {
-  formatTime
+  formatTime,
+  setNavBar
 }

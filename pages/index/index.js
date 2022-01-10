@@ -30,6 +30,12 @@ Page({
     await this.getMessage()
   },
   async onLoad(options) {
+    util.setNavBar(app.globalData)
+    this.setData({
+      CustomBar: app.globalData.CustomBar,
+      Android: app.globalData.Android
+    })
+
     if (wx.getUserProfile) {
       this.setData({
         canIUseGetUserProfile: true

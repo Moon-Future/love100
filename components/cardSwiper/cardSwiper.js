@@ -13,10 +13,6 @@ Component({
     cardCur: {
       type: Number,
       value: 0
-    },
-    showType: {
-      type: String,
-      value: 'card'
     }
   },
 
@@ -31,7 +27,9 @@ Component({
     painterData: {},
     drawShow: false,
     formAdr: '',
-    formDate: ''
+    formDate: '',
+    cardCur: 0,
+    showType: 'card'
   },
 
   lifetimes: {
@@ -91,6 +89,12 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    typeChange(e) {
+      const type = e.currentTarget.dataset.type
+      this.setData({
+        showType: type
+      })
+    },
     // 设置图片
     setImage(index) {
       let flag = false

@@ -3,8 +3,4 @@
   <view slot="content">恋爱百分百</view>
 </cu-custom>
 
-<view class="show-type">
-  <view class="icon cuIcon-read {{showType === 'card' ? 'icon-active' : ''}}" data-type="card" bindtap="typeChange"></view>
-  <view class="icon cuIcon-list {{showType === 'list' ? 'icon-active' : ''}}" data-type="list" bindtap="typeChange"></view>
-</view>
-<cardSwiper cardCur="{{cardCur}}" showType="{{showType}}" bind:listSelect="listSelect"></cardSwiper>
+<cardSwiper cardCur="{{cardCur}}" bind:listSelect="listSelect"></cardSwiper>

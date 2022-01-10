@@ -1,12 +1,12 @@
 {
   "pages": [
-    "pages/festival/festival",
     "pages/index/index",
     "pages/hundred/hundred",
     "pages/logs/logs",
     "pages/message/message",
     "pages/suggest/suggest",
-    "pages/promise/promise"
+    "pages/promise/promise",
+    "pages/festival/festival"
   ],
   "window": {
     "backgroundTextStyle": "light",

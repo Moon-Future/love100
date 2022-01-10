@@ -1,4 +1,5 @@
 const { http } = require('./utils/http')
+const { setNavBar } = require('./utils/util')
 wx.$http = http
 App({
   onLaunch() {
@@ -8,19 +9,7 @@ App({
     wx.setStorageSync('logs', logs)
     this.globalData.userInfo = wx.getStorageSync('userInfo')
 
-    wx.getSystemInfo({
-      success: (e) => {
-        this.globalData.StatusBar = e.statusBarHeight
-        let capsule = wx.getMenuButtonBoundingClientRect()
-        if (capsule) {
-          this.globalData.Custom = capsule
-          this.globalData.CustomBar = capsule.bottom + capsule.top - e.statusBarHeight
-          this.globalData.Android = e.system.includes('Android') ? true : false
-        } else {
-          this.globalData.CustomBar = e.statusBarHeight + 50
-        }
-      },
-    })
+    setNavBar(this.globalData)
   },
   globalData: {
     userInfo: null,
