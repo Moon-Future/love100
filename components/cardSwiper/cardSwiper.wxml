@@ -1,32 +1,24 @@
-<view class="card-menu">
-  <view class="show-type">
-    <view class="icon cuIcon-read {{showType === 'card' ? 'icon-active' : ''}}" data-type="card" bindtap="typeChange"></view>
-    <view class="icon cuIcon-list {{showType === 'list' ? 'icon-active' : ''}}" data-type="list" bindtap="typeChange"></view>
-  </view>
-  <view class="finished-text">
-    已完成 {{finishedLength}} / {{swiperList.length}}
-  </view>
-</view>
-
 <swiper class="card-swiper" hidden="{{showType === 'list'}}" duration="500" bindchange="cardSwiper" indicator-color="#8799a3" indicator-active-color="#0081ff" current="{{cardCur}}">
   <swiper-item wx:for="{{swiperList}}" wx:key="index" class="{{cardCur==index?'cur':''}}">
-    <view class="swiper-item">
-      <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="widthFix" bindload="imageOnLoad"></image>
-      <block wx:if="{{item.finished && item.imgOnload}}">
-        <view class="adr" style="left:{{item.adrLeft}}px;top:{{item.adrTop}}px">{{item.adr}}</view>
-        <view class="date" style="left:{{item.dateLeft}}px;top:{{item.dateTop}}px">{{item.date}}</view>
-        <image class="card-finger" style="left:{{item.fingerLeft}}px;top:{{item.fingerTop}}px" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images%2Ficon%2Ffinger.png" dmode="cover"></image>
-      </block>
-    </view>
-    <block wx:if="{{item.imgOnload}}">
-      <view class="title-wrapper" bindtap="finished">
-        <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
-        <view class="title">{{index + 1}}. {{item.title}}</view>
+    <view class="swiper-item-box">
+      <view class="swiper-item">
+        <image class="card-image" id="image{{index}}" src="{{item.src}}" data-index="{{index}}" mode="widthFix" bindload="imageOnLoad"></image>
+        <block wx:if="{{item.finished && item.imgOnload}}">
+          <view class="adr" style="left:{{item.adrLeft}}px;top:{{item.adrTop}}px">{{item.adr}}</view>
+          <view class="date" style="left:{{item.dateLeft}}px;top:{{item.dateTop}}px">{{item.date}}</view>
+          <image class="card-finger" style="left:{{item.fingerLeft}}px;top:{{item.fingerTop}}px" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images%2Ficon%2Ffinger.png" dmode="cover"></image>
+        </block>
       </view>
-    </block>
-    <view class="flex-box" wx:if="{{item.finished && cardCur==index && item.imgOnload}}">
-      <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">编辑</button>
-      <button class="cu-btn margin-tb-sm bg-olive shadow btn" bindtap="share">分享</button>
+      <block wx:if="{{item.imgOnload}}">
+        <view class="title-wrapper" bindtap="finished">
+          <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
+          <view class="title">{{index + 1}}. {{item.title}}</view>
+        </view>
+      </block>
+      <view class="flex-box" wx:if="{{item.finished && cardCur==index && item.imgOnload}}">
+        <button class="cu-btn margin-tb-sm shadow btn" bindtap="edit">编辑</button>
+        <button class="cu-btn margin-tb-sm bg-olive shadow btn" bindtap="share">分享</button>
+      </view>
     </view>
   </swiper-item>
 </swiper>
@@ -38,5 +30,15 @@
   <view class="list-item" wx:for="{{swiperList}}" wx:key="index" data-index="{{index}}" bindtap="listSelect">
     <view class="list-icon icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
     <view class="list-title">{{index + 1}}. {{item.title}}</view>
+  </view>
+</view>
+
+<view class="card-menu">
+  <view class="show-type">
+    <view class="icon cuIcon-read {{showType === 'card' ? 'icon-active' : ''}}" data-type="card" bindtap="typeChange"></view>
+    <view class="icon cuIcon-list {{showType === 'list' ? 'icon-active' : ''}}" data-type="list" bindtap="typeChange"></view>
+  </view>
+  <view class="finished-text">
+    已完成 {{finishedLength}} / {{swiperList.length}}
   </view>
 </view>
