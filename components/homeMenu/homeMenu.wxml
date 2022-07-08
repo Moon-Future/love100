@@ -37,7 +37,7 @@
 <view class="cu-card case" wx:if="{{controlMap.author}}" data-url="suggest" bindtap="goPage">
   <view class="cu-item shadow">
     <view class="image">
-      <image class="menu-image" src="../../static/images/suggest.png" mode="widthFix"></image>
+      <image class="menu-image" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images%2Fcover%2Fsuggest.png" mode="widthFix"></image>
       <view class="cu-tag bg-pink">反馈与建议</view>
       <view class="cu-bar bg-shadeBottom">
         <text class="text-cut">产品小白，需要您的建议~</text>

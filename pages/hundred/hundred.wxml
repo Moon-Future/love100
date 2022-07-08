@@ -1,6 +1,6 @@
-<cu-custom bgColor="bg-gradual-blue" isBack="{{true}}">
-  <view slot="backText">返回</view>
+<cu-custom isBack="{{true}}">
+  <view slot="backText"></view>
   <view slot="content">恋爱百分百</view>
 </cu-custom>
 
-<cardSwiper cardCur="{{cardCur}}" bind:listSelect="listSelect"></cardSwiper>
+<cardSwiper cardCur="{{cardCur}}"></cardSwiper>

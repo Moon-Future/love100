@@ -46,7 +46,6 @@ Component({
             common: app.globalData.userInfo.common
           }
         })
-        wx.hideLoading()
         let cardList = result.cardList
         let finishedList = result.finishedList
         let finishedMap = {}
@@ -74,6 +73,7 @@ Component({
         if (swiperList.length !== 0) {
           this.setImage(this.data.cardCur)
         }
+        wx.hideLoading()
       } catch(e) {
         console.log(e)
         wx.hideLoading()
@@ -178,7 +178,9 @@ Component({
         cardCur: cardCur
       })
       this.posInfo(cardCur)
-      this.triggerEvent('listSelect')
+      this.setData({
+        showType: 'card'
+      })
     },
     // 选择完成或取消
     finished() {

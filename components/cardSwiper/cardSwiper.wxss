@@ -42,7 +42,7 @@
   display: flex;
   color: #fff;
   padding: 20rpx;
-  border-bottom: 1px solid rgb(175 175 175);
+  /* border-bottom: 1px solid rgb(175 175 175); */
 }
 
 .list-item:first-child {

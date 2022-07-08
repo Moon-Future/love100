@@ -1,3 +1,5 @@
 page {
-  background: var(--gradualBlue);
+  /* background: var(--gradualBlue); */
+  background-image: url('https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images%2Fbg%2Flove03.jpeg');
+  background-size: cover;
 }
