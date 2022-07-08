@@ -5,6 +5,6 @@
   margin-top: 20rpx;
 }
 .cu-btn.btn {
-  width: 250rpx;
+  width: 210rpx;
   margin: 0 30rpx 30rpx 30rpx;
 }
