@@ -3,4 +3,4 @@
   <view slot="content">恋爱百分百</view>
 </cu-custom>
 
-<cardSwiper cardCur="{{cardCur}}"></cardSwiper>
+<cardSwiper></cardSwiper>

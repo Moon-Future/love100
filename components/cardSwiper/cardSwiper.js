@@ -9,12 +9,7 @@ Component({
   /**
    * 组件的属性列表
    */
-  properties: {
-    cardCur: {
-      type: Number,
-      value: 0
-    }
-  },
+  properties: {},
 
   /**
    * 组件的初始数据
