@@ -107,11 +107,6 @@
   font-weight: bold;
 }
 
-.finished-text {
-  color: #fff;
-  right: 10px;
-}
-
 .filter-item {
   margin-right: 10px;
 }

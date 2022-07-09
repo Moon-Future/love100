@@ -39,11 +39,11 @@
     <view class="icon cuIcon-read {{showType === 'card' ? 'icon-active' : ''}}" data-type="card" bindtap="typeChange"></view>
     <view class="icon cuIcon-list {{showType === 'list' ? 'icon-active' : ''}}" data-type="list" bindtap="typeChange"></view>
   </view>
-  <view bindtap="filterClick">{{filterActive.name}}</view>
-  <view class="finished-text">
-    <block wx:if="{{filterActive.id === 1}}">已完成 {{finishedLength}} / {{swiperList.length}}</block>
-    <block wx:elif="{{filterActive.id === 2}}">已完成 {{swiperList.length}}</block>
-    <block wx:elif="{{filterActive.id === 3}}">未完成 {{swiperList.length}}</block>
+  <view bindtap="filterClick">
+    {{filterActive.name}}
+    <block wx:if="{{filterActive.id === 1}}">{{finishedLength}} / {{swiperList.length}}</block>
+    <block wx:elif="{{filterActive.id === 2}}">{{swiperList.length}}</block>
+    <block wx:elif="{{filterActive.id === 3}}">{{swiperList.length}}</block>
   </view>
 </view>
 
