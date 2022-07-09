@@ -76,17 +76,6 @@ page {
   background: #fff;
 }
 
-.update-modal .cu-dialog .modal-btn {
-  width: initial;
-  padding: 0;
-  margin: 0;
-  background: #fff;
-}
-
-.update-modal .cu-bar .action {
-  padding: 0 30rpx;
-}
-
 .invited-modal .cu-dialog .flex-box {
   justify-content: flex-start;
   align-items: center;

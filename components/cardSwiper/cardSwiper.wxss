@@ -1,5 +1,5 @@
 .card-swiper {
-  height: calc(100vh - 280rpx - env(safe-area-inset-bottom) / 2) !important;
+  height: calc(100vh - 280rpx - env(safe-area-inset-bottom) / 2 - 80rpx) !important;
   margin-top: 10px;
 }
 .card-swiper swiper-item {
@@ -29,7 +29,7 @@
 }
 .cu-btn.btn {
   width: 250rpx;
-  margin: 0 30rpx 30rpx 30rpx;
+  margin: 0px 30rpx;
 }
 .icon-check {
   font-size: 46rpx;
@@ -80,13 +80,15 @@
 
 .card-menu {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 80rpx;
   line-height: 80rpx;
   position: fixed;
   bottom: calc(env(safe-area-inset-bottom) / 2);
   width: 100%;
+  color: var(--white);
+  padding: 0 10px;
 }
 
 .show-type {
@@ -106,7 +108,17 @@
 }
 
 .finished-text {
-  position: absolute;
   color: #fff;
   right: 10px;
+}
+
+.filter-item {
+  margin-right: 10px;
+}
+
+.card-btn {
+  position: absolute;
+  bottom: calc(env(safe-area-inset-bottom) / 2 + 80rpx);
+  width: 100%;
+  height: 80rpx;
 }

@@ -43,7 +43,7 @@
   <userBar messageList="{{messageList}}" unreadLength="{{unreadLength}}"></userBar>
   <homeMenu controlMap="{{controlMap}}"></homeMenu>
 
-  <view class="cu-modal bottom-modal update-modal {{updateModalShow || breakModalShow ? 'show' : ''}}">
+  <view class="cu-modal bottom-modal common-modal {{updateModalShow || breakModalShow ? 'show' : ''}}">
     <view class="cu-dialog">
       <view class="cu-bar bg-white">
         <block wx:if="{{updateModalShow}}">

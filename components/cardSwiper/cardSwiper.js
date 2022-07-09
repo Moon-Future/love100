@@ -24,7 +24,14 @@ Component({
     formAdr: '',
     formDate: '',
     cardCur: 0,
-    showType: 'card'
+    showType: 'card',
+    filterList: [
+      { id: 1, name: '全部' },
+      { id: 2, name: '已完成' },
+      { id: 3, name: '未完成' },
+    ],
+    filterActive: { id: 1, name: '全部' },
+    filterModalShow: false
   },
 
   lifetimes: {
@@ -61,13 +68,15 @@ Component({
             finished: finishedMap[cardItem.id] ? finishedItem.id : '',
           })
         }
+        this.swiperListCache = swiperList
         this.setData({
           swiperList,
           finishedLength: finishedList.length
         })
-        if (swiperList.length !== 0) {
-          this.setImage(this.data.cardCur)
-        }
+        this.filterData()
+        // if (swiperList.length !== 0) {
+        //   this.setImage(this.data.cardCur)
+        // }
         wx.hideLoading()
       } catch(e) {
         console.log(e)
@@ -94,19 +103,24 @@ Component({
     setImage(index) {
       let flag = false
       let swiperList = this.data.swiperList
-      if (!this.imageReady[index]) {
+      // 筛选数据为空
+      if (!swiperList[index]) return
+      let id = swiperList[index].id
+      if (!this.imageReady[id]) {
         swiperList[index].src = swiperList[index].url
-        this.imageReady[index] = true
+        this.imageReady[id] = true
         flag = true
       }
-      if (index !== 0 && !this.imageReady[index - 1]) {
+      // 当前图片前一张
+      if (index !== 0 && !this.imageReady[swiperList[index - 1].id]) {
         swiperList[index - 1].src = swiperList[index - 1].url
-        this.imageReady[index - 1] = true
+        this.imageReady[swiperList[index - 1].id] = true
         flag = true
       }
-      if (index !== swiperList.length - 1 && !this.imageReady[index + 1]) {
+      // 当前图片后一张
+      if (index !== swiperList.length - 1 && !this.imageReady[swiperList[index + 1].id]) {
         swiperList[index + 1].src = swiperList[index + 1].url
-        this.imageReady[index + 1] = true
+        this.imageReady[swiperList[index + 1].id] = true
         flag = true
       }
       if (flag) {
@@ -223,6 +237,18 @@ Component({
                     [dateField]: '',
                     finishedLength: this.data.finishedLength - 1
                   })
+                  // swiperListCache 缓存数据也要处理
+                  for (let i = 0, len = this.swiperListCache.length; i < len; i++) {
+                    if (this.swiperListCache[i].id === item.id) {
+                      this.swiperListCache[i].finished = ''
+                      this.swiperListCache[i].adr = ''
+                      this.swiperListCache[i].date = ''
+                      break
+                    }
+                  }
+                  if (this.data.filterActive.id === 2) {
+                    this.filterData(Math.max(0, index - 1))
+                  }
                 } else if (result.status === 0) {
                   this.updateUserInfo()
                 }
@@ -402,6 +428,18 @@ Component({
             modalShow: false,
             finishedLength: item.finished ? finishedLength : (finishedLength + 1)
           })
+          // swiperListCache 缓存数据也要处理
+          for (let i = 0, len = this.swiperListCache.length; i < len; i++) {
+            if (this.swiperListCache[i].id === item.id) {
+              this.swiperListCache[i].finished = result.finishedId
+              this.swiperListCache[i].adr = adr
+              this.swiperListCache[i].date = date
+              break
+            }
+          }
+          if (this.data.filterActive.id === 3) {
+            this.filterData(Math.max(0, index - 1))
+          }
         } else if (result.status === 0) {
           this.updateUserInfo()
         }
@@ -429,6 +467,46 @@ Component({
         swiperList,
         modalShow: false
       })
+    },
+
+    // 筛选展示数据
+    filterData(index = 0) {
+      const { id } = this.data.filterActive
+      let list = this.swiperListCache
+      if (id === 2) {
+        // 已完成
+        list = list.filter(item => !!item.finished)
+      } else if (id === 3) {
+        // 未完成
+        list = list.filter(item => !item.finished)
+      }
+      this.setData({ swiperList: list, cardCur: index }, () => {
+        // 筛选后从第一张开始
+        this.setImage(index)
+      })
+    },
+
+    // 点击筛选
+    filterClick() {
+      this.filterActiveCache = this.data.filterActive
+      this.setData({ filterModalShow: true })
+    },
+
+    // 筛选完成
+    filterConfirm() {
+      this.setData({ filterModalShow: false })
+      this.filterData()
+    },
+
+    // 筛选取消
+    filterCancel() {
+      this.setData({ filterModalShow: false, filterActive: this.filterActiveCache })
+    },
+
+    // 选择条件
+    finishSelect(e) {
+      const item = e.currentTarget.dataset.item
+      this.setData({ filterActive: item })
     }
   }
 })
