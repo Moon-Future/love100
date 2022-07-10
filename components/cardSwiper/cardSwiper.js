@@ -606,7 +606,9 @@ Component({
     // 筛选完成
     filterConfirm() {
       this.setData({ filterModalShow: false })
-      this.filterData()
+      if (this.data.filterActive.id !== this.filterActiveCache.id) {
+        this.filterData()
+      }
     },
 
     // 筛选取消

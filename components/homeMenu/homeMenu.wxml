@@ -10,7 +10,7 @@
   </view>
 </view>
 
-<view class="cu-card case" data-url="promise" bindtap="goPage">
+<view class="cu-card case" bindtap="goPage">
   <view class="cu-item shadow">
     <view class="image">
       <image class="menu-image" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/cover/cover-02.jpg" mode="widthFix"></image>

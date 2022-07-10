@@ -68,6 +68,7 @@ Page({
     }
     try {
       wx.showLoading({
+        title: '提交中',
         mask: true
       })
       let uploadResult = { filePath: '' }
@@ -139,6 +140,7 @@ Page({
     const id = app.globalData.cardEditItem.id
     try {
       wx.showLoading({
+        title: '提交中',
         mask: true
       })
       let result = await wx.$http({

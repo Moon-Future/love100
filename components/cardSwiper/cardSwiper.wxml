@@ -9,7 +9,7 @@
           <image class="card-finger" style="left:{{item.fingerLeft}}px;top:{{item.fingerTop}}px" src="https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images%2Ficon%2Ffinger.png" dmode="cover"></image>
         </block>
       </view>
-      <block wx:if="{{item.imgOnload}}">
+      <block>
         <view class="title-wrapper  {{item.finished ? 'title-wrapper-finished' : ''}}" bindtap="finished">
           <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
           <view class="title">{{index + 1}}. {{item.title}}</view>

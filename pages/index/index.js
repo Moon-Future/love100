@@ -28,6 +28,7 @@ Page({
       userInfo
     })
     await this.getMessage()
+    await this.getControl()
   },
   async onLoad(options) {
     util.setNavBar(app.globalData)
@@ -48,7 +49,6 @@ Page({
     //   avatarUrl: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images/avatar/avatar-01.jpg'
     // }
 
-    await this.getControl()
     await this.getUserInfoFromDB()
 
     if (options.id) {
