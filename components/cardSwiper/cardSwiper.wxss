@@ -17,11 +17,15 @@
 .card-swiper swiper-item .swiper-item {
   position: relative;
 }
+.card-image {
+  max-height: calc(100vh - 280rpx - env(safe-area-inset-bottom) / 2 - 80rpx - 80rpx);
+}
 .title-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20rpx 0;
+  height: 80rpx;
+  /* margin: 20rpx 0; */
 }
 .title {
   color: #fff;
@@ -116,4 +120,9 @@
   bottom: calc(env(safe-area-inset-bottom) / 2 + 80rpx);
   width: 100%;
   height: 80rpx;
+}
+
+.icon-setting {
+  margin-left: 20rpx;
+  font-size: 40rpx;
 }

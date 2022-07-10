@@ -68,13 +68,15 @@ Page({
   async getControl() {
     try {
       const controlResult = await wx.$http({ url: 'getControl' })
+      app.globalData.controlMap = controlResult.controlMap
       this.setData({ controlMap: controlResult.controlMap })
     } catch(e) {}
   },
   async getUserInfoFromDB() {
     try {
       wx.showLoading({
-        title: '加载中'
+        title: '加载中',
+        mask: true
       })
       const result = await this.login()
       result.userInfo.loverAvatarUrl = result.userInfo.loverAvatarUrl || ''

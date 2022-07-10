@@ -13,6 +13,7 @@
         <view class="title-wrapper" bindtap="finished">
           <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
           <view class="title">{{index + 1}}. {{item.title}}</view>
+          <view wx:if="{{item.user}}"><text class="text-white cuIcon-settings icon-setting" data-item="{{item}}" catchtap="editUpload"></text></view>
         </view>
       </block>
     </view>
@@ -44,6 +45,9 @@
     <block wx:if="{{filterActive.id === 1}}">{{finishedLength}} / {{swiperList.length}}</block>
     <block wx:elif="{{filterActive.id === 2}}">{{swiperList.length}}</block>
     <block wx:elif="{{filterActive.id === 3}}">{{swiperList.length}}</block>
+  </view>
+  <view class="text-sl" bindtap="addSomething" wx:if="{{userInfo && controlMap.addCard}}">
+    <text class="text-white cuIcon-add"></text>
   </view>
 </view>
 

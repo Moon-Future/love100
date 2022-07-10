@@ -1,0 +1,54 @@
+page {
+  background-image: url('https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images%2Fbg%2Flove03.jpeg');
+  background-size: cover;
+}
+
+.form-box {
+  width: 100%;
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-add-box {
+  width: 200rpx;
+  height: 200rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #b3b3b3;
+  cursor: pointer;
+}
+
+.icon-add {
+  font-size: 100rpx;
+}
+
+.form-item {
+  margin-top: 30rpx;
+  width: 100%;
+}
+
+.form-item .form-submit {
+  width: 100%;
+  margin-bottom: 30rpx;
+}
+
+.preview-image {
+  position: relative;
+}
+
+.icon-delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 60rpx;
+}
+
+.form-tips {
+  font-size: 26rpx;
+  color: #b5b5b5;
+}

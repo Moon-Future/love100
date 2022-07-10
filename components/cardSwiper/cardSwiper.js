@@ -1,6 +1,7 @@
 const util = require('../../utils/util')
 // const { cards } = require('./cardList')
 const { lazyImage } = require('./constants')
+const onfire = require('../../lib/onfire')
 const app = getApp()
 Component({
   options: {
@@ -31,11 +32,20 @@ Component({
       { id: 3, name: '未完成' },
     ],
     filterActive: { id: 1, name: '全部' },
-    filterModalShow: false
+    filterModalShow: false,
+    userInfo: app.globalData.userInfo,
+    controlMap: app.globalData.controlMap
   },
 
   lifetimes: {
     async ready() {
+      // 监听事件新增页面
+      onfire.on('updateCard', this.updateCard.bind(this))
+
+      this.setData({
+        userInfo: app.globalData.userInfo,
+        controlMap: app.globalData.controlMap
+      })
       try {
         wx.showLoading({
           title: '加载中'
@@ -45,7 +55,8 @@ Component({
         let result = await wx.$http({
           url: 'getCardList',
           data: {
-            common: app.globalData.userInfo.common
+            common: app.globalData.userInfo.common,
+            user: app.globalData.userInfo.id
           }
         })
         let cardList = result.cardList
@@ -68,7 +79,7 @@ Component({
             finished: finishedMap[cardItem.id] ? finishedItem.id : '',
           })
         }
-        this.swiperListCache = swiperList
+        this.swiperListCache = JSON.parse(JSON.stringify(swiperList))
         this.setData({
           swiperList,
           finishedLength: finishedList.length
@@ -93,6 +104,55 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    // 事件添加页面提交后数据处理
+    updateCard({ data, type }) {
+      const swiperList = this.data.swiperList
+      if (type === 'add') {
+        data.src = lazyImage
+        data.finished = ''
+        swiperList.push(data)
+        this.swiperListCache.push(data)
+      } else if (type === 'edit') {
+        for (let i = 0, len = swiperList.length; i < len; i++) {
+          if (swiperList[i].id === data.id) {
+            swiperList[i].title = data.title
+            swiperList[i].url = data.url
+            swiperList[i].src = lazyImage
+            this.imageReady[data.id] = false
+            break
+          }
+        }
+        for (let i = 0, len = this.swiperListCache.length; i < len; i++) {
+          if (this.swiperListCache[i].id === data.id) {
+            this.swiperListCache[i].title = data.title
+            this.swiperListCache[i].url = data.url
+            this.swiperListCache[i].src = data.lazyImage
+            break
+          }
+        }
+      } else if (type === 'del') {
+        let index = -1
+        let indexCache = -1
+        for (let i = 0, len = swiperList.length; i < len; i++) {
+          if (swiperList[i].id === data.id) {
+            index = i
+            break
+          }
+        }
+        for (let i = 0, len = this.swiperListCache.length; i < len; i++) {
+          if (this.swiperListCache[i].id === data.id) {
+            indexCache = i
+            break
+          }
+        }
+        swiperList.splice(index, 1)
+        this.swiperListCache.splice(index, 1)
+        this.setData({ cardCur: this.data.cardCur - 1 })
+      }
+      this.setData({ swiperList: swiperList })
+      this.setImage(this.data.cardCur)
+    },
+
     typeChange(e) {
       const type = e.currentTarget.dataset.type
       this.setData({
@@ -155,29 +215,56 @@ Component({
       let dateTop = `swiperList[${index}].dateTop`
       let fingerLeft = `swiperList[${index}].fingerLeft`
       let fingerTop = `swiperList[${index}].fingerTop`
+      let params = {
+        adrLeft: 10,
+        adrTop: 10,
+        dateLeft: 10,
+        dateTop: 30,
+        fingerLeft: 0,
+        fingerTop: 40
+      }
       if (this.width) {
-        this.setData({
-          [adrLeft]: item.adrWidth / item.width * this.width,
-          [adrTop]: item.adrHeight / item.height * this.height,
-          [dateLeft]: item.dateWidth / item.width * this.width,
-          [dateTop]: item.dateHeight / item.height * this.height,
-          [fingerLeft]: item.fingerWidth / item.width * this.width,
-          [fingerTop]: item.fingerHeight / item.height * this.height
-        })
+        if (!item.width) {
+          this.setPosInfo(params, index)
+        } else {
+          this.setPosInfo(null, index)
+        }
       } else {
         this.createSelectorQuery().select(`#image${index}`).boundingClientRect((rect) => {
           this.width = rect.width
           this.height = rect.height
-          this.setData({
-            [adrLeft]: item.adrWidth / item.width * this.width,
-            [adrTop]: item.adrHeight / item.height * this.height,
-            [dateLeft]: item.dateWidth / item.width * this.width,
-            [dateTop]: item.dateHeight / item.height * this.height,
-            [fingerLeft]: item.fingerWidth / item.width * this.width,
-            [fingerTop]: item.fingerHeight / item.height * this.height
-          })
+          if (!item.width) {
+            this.setPosInfo(params, index)
+          } else {
+            this.setPosInfo(null, index)
+          }
         }).exec()
       }
+    },
+    setPosInfo(params, index) {
+      let item = this.data.swiperList[index]
+      let adrLeft = `swiperList[${index}].adrLeft`
+      let adrTop = `swiperList[${index}].adrTop`
+      let dateLeft = `swiperList[${index}].dateLeft`
+      let dateTop = `swiperList[${index}].dateTop`
+      let fingerLeft = `swiperList[${index}].fingerLeft`
+      let fingerTop = `swiperList[${index}].fingerTop`
+      params = params || {
+        adrLeft: item.adrWidth / item.width * this.width,
+        adrTop: item.adrHeight / item.height * this.height,
+        dateLeft: item.dateWidth / item.width * this.width,
+        dateTop: item.dateHeight / item.height * this.height,
+        fingerLeft: item.fingerWidth / item.width * this.width,
+        fingerTop: item.fingerHeight / item.height * this.height
+      }
+      this.setData({
+        [adrLeft]: params.adrLeft,
+        [adrTop]: params.adrTop,
+        [dateLeft]: params.dateLeft,
+        [dateTop]: params.dateTop,
+        [fingerLeft]: params.fingerLeft,
+        [fingerTop]: params.fingerTop
+      })
     },
     // 列表选择
     listSelect(e) {
@@ -302,81 +389,104 @@ Component({
       } catch(e) {
         sentence = ''
       }
-      let imageItem = this.data.swiperList[this.data.cardCur]
-      let canvasWidth = imageItem.width / imageItem.height * this.height
-      let painterData = {
-        background: '#fff',
-        width: canvasWidth + 'px',
-        height: this.height + 100 + 'px',
-        imageHeight: this.height + 100,
-        borderRadius: '20rpx',
-        views: [
-          {
-            type: 'image',
-            url: imageItem.url,
-            mode: 'scaleToFill',
+      this.createSelectorQuery().select(`#image${this.data.cardCur}`).boundingClientRect((rect) => {
+        let imageItem = this.data.swiperList[this.data.cardCur]
+        let canvasWidth = rect.width
+        let canvasHeight = rect.height
+        let userUpload = !imageItem.width
+        let params = {
+          adrLeft: 10,
+          adrTop: 30,
+          dateLeft: 10,
+          dateTop: 50,
+          fingerLeft: 10,
+          fingerTop: 60
+        }
+        let painterData = {
+          background: '#fff',
+          width: canvasWidth + 'px',
+          height: canvasHeight + 100 + 'px',
+          imageHeight: canvasHeight + 100,
+          borderRadius: '20rpx',
+          views: [
+            {
+              type: 'image',
+              url: imageItem.url,
+              mode: 'scaleToFill',
+              css: {
+                width: canvasWidth + 'px',
+                height: canvasHeight + 'px',
+                borderRadius: '20rpx 20rpx 0 0',
+              },
+            },
+            {
+              type: 'image',
+              url: 'https://love100-1255423800.cos.ap-shanghai.myqcloud.com/images%2Ficon%2Ffinger.png',
+              mode: 'scaleToFill',
+              css: {
+                width: '120rpx',
+                height: '120rpx',
+                left: (userUpload ? params.fingerLeft : imageItem.fingerWidth / imageItem.width * canvasWidth) + 'px',
+                top: (userUpload ? params.fingerTop : imageItem.fingerHeight / imageItem.height * canvasHeight) + 'px'
+              },
+            },
+            {
+              type: 'text',
+              text: imageItem.adr,
+              css: {
+                width: (userUpload ? canvasWidth : canvasWidth - imageItem.dateWidth / imageItem.width * canvasWidth) + 'px',
+                left: (userUpload ? params.adrLeft : imageItem.adrWidth / imageItem.width * canvasWidth) + 'px',
+                top: (userUpload ? params.adrTop : imageItem.adrHeight / imageItem.height * canvasHeight) + 'px'
+              }
+            },
+            {
+              type: 'text',
+              text: imageItem.date,
+              css: {
+                left: (userUpload ? params.dateLeft : imageItem.dateWidth / imageItem.width * canvasWidth) + 'px',
+                top: (userUpload ? params.dateTop : imageItem.dateHeight / imageItem.height * canvasHeight) + 'px'
+              }
+            },
+            // 底部二维码区域
+            {
+              type: 'image',
+              url: '../../static/images/barcode.jpg',
+              mode: 'scaleToFill',
+              css: {
+                width: '80px',
+                height: '80px',
+                right: '10px',
+                bottom: '10px'
+              },
+            },
+            {
+              type: 'text',
+              text: sentence,
+              css: {
+                width: canvasWidth - 110 + 'px',
+                left: '10px',
+                top: canvasHeight + 10 + 'px',
+                lineHeight: '14px'
+              }
+            }
+          ]
+        }
+        if (userUpload) {
+          painterData.views.push({
+            type: 'text',
+            text: imageItem.title,
             css: {
               width: canvasWidth + 'px',
-              height: this.height + 'px',
-              borderRadius: '20rpx 20rpx 0 0',
-            },
-          },
-          {
-            type: 'image',
-            url: '../../static/images/finger.png',
-            mode: 'scaleToFill',
-            css: {
-              width: '120rpx',
-              height: '120rpx',
-              left: imageItem.fingerWidth / imageItem.width * canvasWidth + 'px',
-              top: imageItem.fingerHeight / imageItem.height * this.height + 'px'
-            },
-          },
-          {
-            type: 'text',
-            text: imageItem.adr,
-            css: {
-              width: canvasWidth - imageItem.dateWidth / imageItem.width * canvasWidth + 'px',
-              left: imageItem.adrWidth / imageItem.width * canvasWidth + 'px',
-              top: imageItem.adrHeight / imageItem.height * this.height + 'px'
-            }
-          },
-          {
-            type: 'text',
-            text: imageItem.date,
-            css: {
-              left: imageItem.dateWidth / imageItem.width * canvasWidth + 'px',
-              top: imageItem.dateHeight / imageItem.height * this.height + 'px'
-            }
-          },
-          // 底部二维码区域
-          {
-            type: 'image',
-            url: '../../static/images/barcode.jpg',
-            mode: 'scaleToFill',
-            css: {
-              width: '80px',
-              height: '80px',
-              right: '10px',
-              bottom: '10px'
-            },
-          },
-          {
-            type: 'text',
-            text: sentence,
-            css: {
-              width: canvasWidth - 110 + 'px',
               left: '10px',
-              top: this.height + 10 + 'px',
-              lineHeight: '14px'
+              top: '10px'
             }
-          }
-        ]
-      }
-      this.setData({
-        painterData,
-        drawShow: true
-      })
+          })
+        }
+        this.setData({
+          painterData,
+          drawShow: true
+        })
+      }).exec()
     },
     onImgOK() {
       wx.hideLoading()
@@ -472,7 +582,7 @@ Component({
     // 筛选展示数据
     filterData(index = 0) {
       const { id } = this.data.filterActive
-      let list = this.swiperListCache
+      let list = JSON.parse(JSON.stringify(this.swiperListCache))
       if (id === 2) {
         // 已完成
         list = list.filter(item => !!item.finished)
@@ -480,6 +590,7 @@ Component({
         // 未完成
         list = list.filter(item => !item.finished)
       }
+      this.imageReady = {}
       this.setData({ swiperList: list, cardCur: index }, () => {
         // 筛选后从第一张开始
         this.setImage(index)
@@ -507,6 +618,21 @@ Component({
     finishSelect(e) {
       const item = e.currentTarget.dataset.item
       this.setData({ filterActive: item })
+    },
+
+    addSomething(e) {
+      app.globalData.cardEditItem = null
+      wx.navigateTo({
+        url: '/pages/addThing/addThing'
+      })      
+    },
+
+    editUpload(e) {
+      const item = e.currentTarget.dataset.item
+      app.globalData.cardEditItem = item
+      wx.navigateTo({
+        url: '/pages/addThing/addThing'
+      })
     }
   }
 })

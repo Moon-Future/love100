@@ -12,6 +12,8 @@ const API = {
   getCardList: baseUrl + 'getCardList',
   cardFinished: baseUrl + 'cardFinished',
   cardEdit: baseUrl + 'cardEdit',
+  cardAdd: baseUrl + 'cardAdd',
+  cardDelete: baseUrl + 'cardDelete',
   getSentence: baseUrl + 'getSentence',
   getMessage: baseUrl + 'getMessage',
   readMessage: baseUrl + 'readMessage',
