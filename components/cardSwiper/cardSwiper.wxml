@@ -10,7 +10,7 @@
         </block>
       </view>
       <block wx:if="{{item.imgOnload}}">
-        <view class="title-wrapper" bindtap="finished">
+        <view class="title-wrapper  {{item.finished ? 'title-wrapper-finished' : ''}}" bindtap="finished">
           <view class="icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
           <view class="title">{{index + 1}}. {{item.title}}</view>
           <view wx:if="{{item.user}}"><text class="text-white cuIcon-settings icon-setting" data-item="{{item}}" catchtap="editUpload"></text></view>
@@ -29,7 +29,7 @@
 <draw show="{{drawShow}}" painterData="{{painterData}}" bind:onImgOK="onImgOK"></draw>
 
 <view class="list-wrapper" hidden="{{showType === 'card'}}">
-  <view class="list-item" wx:for="{{swiperList}}" wx:key="index" data-index="{{index}}" bindtap="listSelect">
+  <view class="list-item {{item.finished ? 'list-item-finished' : ''}}" wx:for="{{swiperList}}" wx:key="index" data-index="{{index}}" bindtap="listSelect">
     <view class="list-icon icon-check {{item.finished ? 'cuIcon-squarecheck' : 'cuIcon-square'}}"></view>
     <view class="list-title">{{index + 1}}. {{item.title}}</view>
   </view>

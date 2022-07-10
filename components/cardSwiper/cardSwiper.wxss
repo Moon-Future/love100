@@ -43,6 +43,9 @@
   position: absolute;
   font-size: 20rpx;
 }
+.title-wrapper-finished .icon-check, .title-wrapper-finished .title {
+  color: var(--orange);
+}
 
 .list-wrapper {
   height: calc(100vh - 280rpx - env(safe-area-inset-bottom) / 2) !important;
@@ -55,6 +58,10 @@
   color: #fff;
   padding: 20rpx;
   /* border-bottom: 1px solid rgb(175 175 175); */
+}
+
+.list-item-finished .list-title, .list-item-finished .list-icon {
+  color: var(--orange);
 }
 
 .list-item:first-child {
