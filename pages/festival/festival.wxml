@@ -1,7 +1,14 @@
-<cu-custom isBack="{{true}}"></cu-custom>
+<cu-custom isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">我们的纪念日</view>
+</cu-custom>
+
+<calendar bind:selectDay="selectDay"></calendar>
 
 <view>
-  <calendar></calendar>
+  <view>{{activeDayInfo.cYear}}年{{activeDayInfo.cMonth}}月{{activeDayInfo.cDay}}日</view>
+  <view>{{activeDayInfo.lYear}}年{{activeDayInfo.IMonthCn}}{{activeDayInfo.IDayCn}}</view>
+    
 </view>
   
 

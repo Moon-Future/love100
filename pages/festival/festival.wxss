@@ -1,4 +1,6 @@
-
+page {
+  background: var(--gradualRed);
+}
 
 .bottom-wrapper {
   position: fixed;
