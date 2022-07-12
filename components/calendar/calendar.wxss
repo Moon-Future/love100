@@ -40,6 +40,7 @@
   border-radius: 10rpx;
   white-space: nowrap;
   overflow: hidden;
+  position: relative;
 }
 
 .week-day .day-box.active-day {
@@ -48,6 +49,13 @@
 
 .week-day .day-box.active-today {
   border-color: var(--blue);
+}
+
+.week-day .day-box .festival-today {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--red);
 }
 
 .day-box .day {

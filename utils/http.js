@@ -1,5 +1,6 @@
 // const HOST = 'http://192.168.31.44:5555'
-const HOST = 'http://192.168.31.157:5555'
+// const HOST = 'http://192.168.31.157:5555' // apple
+const HOST = 'http://172.17.215.225:5555' // xunFei
 // const HOST = 'http://localhost:5555'
 // const HOST = 'https://wxproject.cl8023.com'
 const baseUrl = `${HOST}/api/wxLove100/`
@@ -19,7 +20,8 @@ const API = {
   readMessage: baseUrl + 'readMessage',
   getControl: baseUrl + 'getControl',
   refuse: baseUrl + 'refuse',
-  suggest: baseUrl + 'suggest'
+  suggest: baseUrl + 'suggest',
+  getFestival: baseUrl + 'getFestival'
 }
 
 function http(opts) {

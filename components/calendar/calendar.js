@@ -10,7 +10,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    festivalMap: {
+      type: Object,
+      default: {} // 卡片完成对象
+    }
   },
 
   /**
@@ -24,7 +27,7 @@ Component({
     yearList: YEARS,
     yearSelect: '',
     monthList: MONTHS,
-    monthSelect: ''
+    monthSelect: '',
   },
 
   lifetimes: {

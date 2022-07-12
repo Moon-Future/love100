@@ -29,6 +29,7 @@
           <view wx:elif="{{item.festival}}" class="festival-day">{{item.festival}}</view>
           <view wx:elif="{{item.Term}}" class="term-day">{{item.Term}}</view>
           <view wx:else>{{item.IDayCn}}</view>
+          <view class="cuIcon-likefill festival-today" wx:if="{{festivalMap[item.date]}}"></view>
         </view>
       </view>
     </view>

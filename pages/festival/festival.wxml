@@ -2,25 +2,47 @@
   <view slot="backText"></view>
   <view slot="content">我们的纪念日</view>
 </cu-custom>
-
-<calendar bind:selectDay="selectDay"></calendar>
-
-<view class="festival-item">
-  <view class="timeinfo-box flex align-center">
-    <view class="solar-time">{{activeDayInfo.date}}</view>
-    <view>{{activeDayInfo.astro}}</view>
+<view class="content-box">
+  <calendar bind:selectDay="selectDay" festivalMap="{{finishedMap}}"></calendar>
+  <view class="festival-item">
+    <view class="timeinfo-box flex align-center">
+      <view class="solar-time">{{activeDayInfo.date}}</view>
+      <view>{{activeDayInfo.astro}}</view>
+    </view>
+    <view class="lunar-box flex align-center">
+      <view>
+        {{activeDayInfo.IMonthCn}}{{activeDayInfo.IDayCn}} {{activeDayInfo.gzYear}}年 {{activeDayInfo.gzMonth}}月 {{activeDayInfo.gzDay}}日 {{activeDayInfo.Animal}}
+      </view>
+    </view>
+    <view class="festival-name flex">
+      <view class="name festival-day" wx:if="{{activeDayInfo.lunarFestival}}">
+        {{activeDayInfo.lunarFestival}}
+      </view>
+      <view class="name festival-day" wx:if="{{activeDayInfo.festival}}">
+        {{activeDayInfo.festival}}
+      </view>
+      <view class="name term-day" wx:if="{{activeDayInfo.Term}}">{{activeDayInfo.Term}}</view>
+    </view>
+    <view class="festival-add" bindtap="addFestival">
+      <text class="text-blue cuIcon-roundaddfill"></text>
+    </view>
+      
   </view>
-  <view class="lunar-box flex align-center">
-    <view>{{activeDayInfo.IMonthCn}}{{activeDayInfo.IDayCn}} {{activeDayInfo.gzYear}}年 {{activeDayInfo.gzMonth}}月 {{activeDayInfo.gzDay}}日 {{activeDayInfo.Animal}}</view>
-  </view>
-  <view class="festival-name flex">
-    <view class="name festival-day" wx:if="{{activeDayInfo.lunarFestival}}">{{activeDayInfo.lunarFestival}}</view>
-    <view class="name festival-day" wx:if="{{activeDayInfo.festival}}">{{activeDayInfo.festival}}</view>
-    <view class="name term-day" wx:if="{{activeDayInfo.Term}}">{{activeDayInfo.Term}}</view>
+  <view class="festival-item flex justify-between" wx:for="{{todayFinished}}" wx:key="index">
+    <view class="flex align-center">
+      <view class="today flex align-center justify-center">这天</view>
+      <view>
+        <view>
+          <text class="finished-name">{{item.fromUserName}}</text>和
+          <text class="finished-name">{{item.toUserName}}</text>
+        </view>
+        <view>
+          在
+          <text class="finished-adr">{{item.adr}}</text>
+          <text class="finished-name">{{item.title}}</text>
+        </view>
+      </view>
+    </view>
+    <image class="finished-img" src="{{item.url}}" mode="aspectFit" lazy-load="true" data-url="{{item.url}}" bindtap="previewImage" />
   </view>
 </view>
-  
-<view class="bottom-wrapper">
-  <icon icon="../../static/icon/roundadd.png" class="roundadd" />
-</view>
-  
