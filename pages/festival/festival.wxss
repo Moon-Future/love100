@@ -2,6 +2,40 @@ page {
   background: var(--gradualRed);
 }
 
+.festival-item {
+  margin: 20rpx;
+  padding: 20rpx;
+  border-radius: 10rpx;
+  background-color: var(--white);
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  font-size: 30rpx;
+}
+
+.timeinfo-box {
+  margin-top: 10rpx;
+}
+
+.timeinfo-box .solar-time {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+}
+
+.lunar-box {
+  margin: 10rpx 0;
+}
+
+.festival-name .name {
+  margin-right: 10rpx;
+}
+
+.festival-name .festival-day {
+  color: var(--red);
+}
+
+.festival-name .term-day {
+  color: var(--blue);
+}
+
 .bottom-wrapper {
   position: fixed;
   bottom: 0;

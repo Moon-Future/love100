@@ -1,6 +1,6 @@
 // components/month/month.js
 const calendar = require('../../lib/calendar.js');
-const { WEEKS } = require('../../utils/constant')
+const { YEARS, MONTHS, WEEKS } = require('../../utils/constant')
 const app = getApp()
 Component({
   options: {
@@ -20,7 +20,11 @@ Component({
     todayInfo: {},
     activeDayInfo: {},
     weeks: WEEKS,
-    dates: []
+    dates: [],
+    yearList: YEARS,
+    yearSelect: '',
+    monthList: MONTHS,
+    monthSelect: ''
   },
 
   lifetimes: {
@@ -46,7 +50,11 @@ Component({
       // 当前月总天数
       const monthDays = this.getMonthDays(nowTimeInfo.year, nowTimeInfo.month)
       this.getDates(firstDay, monthDays)
-      this.setData({ activeDayInfo: this.getDayInfo(nowTimeInfo.year, nowTimeInfo.month, nowTimeInfo.day) })
+      this.setData({
+        activeDayInfo: this.getDayInfo(nowTimeInfo.year, nowTimeInfo.month, nowTimeInfo.day),
+        yearSelect: this.data.yearList.indexOf(nowTimeInfo.year),
+        monthSelect: this.data.monthList.indexOf(nowTimeInfo.month),
+      })
       this.triggerEvent('selectDay', this.data.activeDayInfo)
     },
 
@@ -142,6 +150,28 @@ Component({
         dates[index].push(...(new Array(7 - dates[index].length).fill('')))
       }
       this.setData({ dates })
+    },
+
+    // 选择年
+    yearChange(e) {
+      const index = e.detail.value
+      const year = this.data.yearList[index]
+      if (year === this.data.activeDayInfo.cYear) return
+      const month = this.data.activeDayInfo.cMonth
+      const day = this.data.activeDayInfo.cDay
+      const monthDays = this.getMonthDays(year, month)
+      this.initCalendar(`${year}-${month}-${Math.min(monthDays, day)}`)
+    },
+
+    // 选择月
+    monthChange(e) {
+      const index = e.detail.value
+      const month = this.data.monthList[index]
+      if (month === this.data.activeDayInfo.cMonth) return
+      const year = this.data.activeDayInfo.cYear
+      const day = this.data.activeDayInfo.cDay
+      const monthDays = this.getMonthDays(year, month)
+      this.initCalendar(`${year}-${month}-${Math.min(monthDays, day)}`)
     }
   }
 })

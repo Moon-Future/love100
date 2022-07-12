@@ -5,13 +5,21 @@
 
 <calendar bind:selectDay="selectDay"></calendar>
 
-<view>
-  <view>{{activeDayInfo.cYear}}年{{activeDayInfo.cMonth}}月{{activeDayInfo.cDay}}日</view>
-  <view>{{activeDayInfo.lYear}}年{{activeDayInfo.IMonthCn}}{{activeDayInfo.IDayCn}}</view>
-    
+<view class="festival-item">
+  <view class="timeinfo-box flex align-center">
+    <view class="solar-time">{{activeDayInfo.date}}</view>
+    <view>{{activeDayInfo.astro}}</view>
+  </view>
+  <view class="lunar-box flex align-center">
+    <view>{{activeDayInfo.IMonthCn}}{{activeDayInfo.IDayCn}} {{activeDayInfo.gzYear}}年 {{activeDayInfo.gzMonth}}月 {{activeDayInfo.gzDay}}日 {{activeDayInfo.Animal}}</view>
+  </view>
+  <view class="festival-name flex">
+    <view class="name festival-day" wx:if="{{activeDayInfo.lunarFestival}}">{{activeDayInfo.lunarFestival}}</view>
+    <view class="name festival-day" wx:if="{{activeDayInfo.festival}}">{{activeDayInfo.festival}}</view>
+    <view class="name term-day" wx:if="{{activeDayInfo.Term}}">{{activeDayInfo.Term}}</view>
+  </view>
 </view>
   
-
 <view class="bottom-wrapper">
   <icon icon="../../static/icon/roundadd.png" class="roundadd" />
 </view>

@@ -2,10 +2,18 @@
   <view class="calendar-tools"></view>
   <view class="calendar-time">
     <view class="calendar-top flex align-center justify-between">
-      <view class="calendar-year text">{{ activeDayInfo.cYear }}</view>
+      <view class="calendar-year text">
+        <picker mode="selector" range="{{yearList}}" value="{{yearSelect}}" bindchange="yearChange">
+          {{ activeDayInfo.cYear }}
+        </picker>
+      </view>
       <view class="calendar-month flex align-center justify-between">
         <view class="cuIcon-back" bindtap="prevMonth"></view>
-        <view class="text">{{ activeDayInfo.cMonth }}月</view>
+        <view class="text">
+          <picker mode="selector" range="{{monthList}}" value="{{monthSelect}}" bindchange="monthChange">
+            {{ activeDayInfo.cMonth }}月
+          </picker>
+        </view>
         <view class="cuIcon-right" bindtap="nextMonth"></view>
       </view>
       <view bindtap="backToToday">回到今天</view>
@@ -17,11 +25,13 @@
       <view class="week-day flex justify-around" wx:for="{{dates}}" wx:key="index" wx:for-item="days">
         <view class="day-box flex flex-direction align-center justify-center {{activeDayInfo.cDay === item.cDay ? 'active-day' : ''}} {{todayInfo.date === item.date ? 'active-today' : ''}}" wx:for="{{days}}" wx:key="index" data-date="{{item}}" bindtap="selectDay">
           <view class="day">{{item.cDay}}</view>
-          <view wx:if="{{item.lunarFestival}}">{{item.lunarFestival}}</view>
-          <view wx:elif="{{item.Term}}">{{item.Term}}</view>
+          <view wx:if="{{item.lunarFestival}}" class="festival-day">{{item.lunarFestival}}</view>
+          <view wx:elif="{{item.festival}}" class="festival-day">{{item.festival}}</view>
+          <view wx:elif="{{item.Term}}" class="term-day">{{item.Term}}</view>
           <view wx:else>{{item.IDayCn}}</view>
         </view>
       </view>
     </view>
   </view>
 </view>
+
