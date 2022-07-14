@@ -58,6 +58,13 @@
   color: var(--red);
 }
 
+.week-day .day-box .memory-today {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: var(--orange);
+}
+
 .day-box .day {
   font-size: 40rpx;
   color: var(--black);

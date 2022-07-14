@@ -1,0 +1,11 @@
+page {
+  background: var(--gradualRed);
+}
+
+.from-input {
+  text-align: right;
+}
+
+.form-item {
+  
+}

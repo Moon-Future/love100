@@ -1,0 +1,29 @@
+<!-- <picker mode="multiSelector" value="{{dateIndex}}" range="{{isLunar ? lunarDate : solarDate}}" range-key="name" bindchange="dateChange">
+  <view class="picker">
+    <block wx:if="{{isLunar}}">{{ lunarDate[0][dateIndex[0]].name }}{{ lunarDate[1][dateIndex[1]].name }}{{ lunarDate[2][dateIndex[2]].name }}</block>
+    <block wx:else>{{ solarDate[0][dateIndex[0]].id }}-{{ solarDate[1][dateIndex[1]].id }}-{{ solarDate[2][dateIndex[2]].id }}</block>
+  </view>
+</picker> -->
+<view class="cu-modal bottom-modal common-modal {{ show ? 'show' : '' }}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white">
+      <button class="action text-green modal-btn" bindtap="confirm">确定</button>
+      <view class="tab-box flex">
+        <view class="tab-item {{isLunar ? 'bg-white' : 'bg-blue tab-ative'}}" data-tab="solar" bindtap="tabChange">公历</view>
+        <view class="tab-item {{isLunar ? 'bg-blue tab-ative' : 'bg-white'}}" data-tab="lunar" bindtap="tabChange">农历</view>
+      </view>
+      <view class="action text-blue" bindtap="cancel">取消</view>
+    </view>
+    <picker-view indicator-style="height:40px;" style="width:100%;height:200px;" value="{{dateIndex}}" bindpickstart="pickStart" bindpickend="pickEnd" bindchange="dateChange">
+      <picker-view-column>
+        <view style="line-height:40px;text-align:center;" wx:for="{{pickerDate[0]}}" wx:key="index">{{item.name}}</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view style="line-height:40px;text-align:center;" wx:for="{{pickerDate[1]}}" wx:key="index">{{item.name}}</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view style="line-height:40px;text-align:center;" wx:for="{{pickerDate[2]}}" wx:key="index">{{item.name}}</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+</view>

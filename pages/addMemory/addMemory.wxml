@@ -1,0 +1,19 @@
+<cu-custom isBack="{{true}}">
+  <view slot="backText"></view>
+  <view slot="content">新增纪念日</view>
+</cu-custom>
+
+<view class="cu-form-group">
+  <view class="title">纪念</view>
+  <input class="from-input" placeholder="xx生日、结婚纪念日" value="{{title}}" bindinput="inputChange"></input>
+</view>
+<view class="cu-form-group">
+  <view class="title">时间</view>
+  <view class="form-item" bindtap="datePickerClick">{{dateInfo.name}}</view>
+</view>
+
+<view class="padding flex flex-direction">
+  <button class="cu-btn bg-orange margin-tb-sm lg" bindtap="save" loading="{{loading}}">保存</button>
+</view>
+
+<datePicker date="{{initDate}}" show="{{datePickerShow}}" bind:cancel="dateCancel" bind:confirm="dateConfirm"></datePicker>

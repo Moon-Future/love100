@@ -13,7 +13,11 @@ Component({
     festivalMap: {
       type: Object,
       default: {} // 卡片完成对象
-    }
+    },
+    memoryMap: {
+      type: Object,
+      default: {}
+    },
   },
 
   /**

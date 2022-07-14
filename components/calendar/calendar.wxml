@@ -30,6 +30,7 @@
           <view wx:elif="{{item.Term}}" class="term-day">{{item.Term}}</view>
           <view wx:else>{{item.IDayCn}}</view>
           <view class="cuIcon-likefill festival-today" wx:if="{{festivalMap[item.date]}}"></view>
+          <view class="cuIcon-crownfill memory-today" wx:if="{{memoryMap.lunar[item.lMonth + '-' + item.lDay] || memoryMap.solar[item.cMonth + '-' + item.cDay]}}"></view>
         </view>
       </view>
     </view>

@@ -11,6 +11,7 @@ Page({
     finishedMap: {},
     todayFinished: [],
     memoryList: [],
+    memoryMap: {},
     todayMemory: [],
     previewList: []
   },
@@ -39,14 +40,20 @@ Page({
         }
       })
       const finishedMap = {}
+      const memoryMap = { solar: {}, lunar: {} }
       result.finishedList.forEach(item => {
         const dateArr = item.date.split('-')
         item.date = `${Number(dateArr[0])}-${Number(dateArr[1])}-${Number(dateArr[2])}`
         finishedMap[item.date] = true
       })
+      result.memoryList.forEach(item => {
+        const dateArr = item.date.split('-')
+        memoryMap[item.isLunar ? 'lunar' : 'solar'][`${Number(dateArr[1])}-${Number(dateArr[2])}`] = true
+      })
       this.setData({
         finishedList: result.finishedList || [],
         finishedMap: finishedMap,
+        memoryMap: memoryMap,
         memoryList: result.memoryList || []
       })
       this.filterTodayList()
@@ -71,9 +78,19 @@ Page({
         previewList.push(item.url)
       }
     })
+    memoryList.forEach(item => {
+      const [year, month, day] = item.date.split('-')
+      if (item.isLunar && Number(month) === activeDayInfo.lMonth && Number(day) === activeDayInfo.lDay) {
+        item.years = Math.max(0, activeDayInfo.lYear - year)
+        todayMemory.push(item)
+      } else if (!item.isLunar && Number(month) === activeDayInfo.cMonth && Number(day) === activeDayInfo.cDay) {
+        item.years = Math.max(0, activeDayInfo.cYear - year)
+        todayMemory.push(item)
+      }
+    })
     this.setData({
       todayFinished,
-      memoryList,
+      todayMemory,
       previewList
     })
   },
@@ -88,6 +105,8 @@ Page({
   },
 
   addFestival() {
-    console.log('addFestival')
+    wx.navigateTo({
+      url: `/pages/addMemory/addMemory?date=${this.data.activeDayInfo.date}`
+    })
   }
 })

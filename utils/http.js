@@ -21,7 +21,9 @@ const API = {
   getControl: baseUrl + 'getControl',
   refuse: baseUrl + 'refuse',
   suggest: baseUrl + 'suggest',
-  getFestival: baseUrl + 'getFestival'
+  getFestival: baseUrl + 'getFestival',
+  addMemory: baseUrl + 'addMemory',
+  getMemory: baseUrl + 'getMemory'
 }
 
 function http(opts) {

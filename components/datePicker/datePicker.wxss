@@ -1,0 +1,10 @@
+.tab-item {
+  padding: 10rpx 30rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  border: 1px solid var(--gray);
+}
+
+.tab-ative {
+  border-color: var(--blue);
+}

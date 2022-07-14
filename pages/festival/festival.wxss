@@ -69,6 +69,22 @@ page {
   flex: 0 0 auto;
 }
 
+.memory-item .today {
+  background: var(--gradualOrange);
+}
+
+.memory-item .memory-name {
+  color: var(--red);
+  margin-right: 10rpx;
+  font-size: 40rpx;
+}
+
+.memory-item .memory-years {
+  color: var(--blue);
+  margin-right: 10rpx;
+  font-size: 50rpx;
+}
+
 .festival-item .finished-img {
   width: 100rpx;
   height: auto;

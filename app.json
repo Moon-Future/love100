@@ -6,8 +6,9 @@
     "pages/message/message",
     "pages/suggest/suggest",
     "pages/promise/promise",
+    "pages/addThing/addThing",
     "pages/festival/festival",
-    "pages/addThing/addThing"
+    "pages/addMemory/addMemory"
   ],
   "window": {
     "backgroundTextStyle": "light",
