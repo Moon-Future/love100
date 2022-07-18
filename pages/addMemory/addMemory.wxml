@@ -14,6 +14,7 @@
 
 <view class="padding flex flex-direction">
   <button class="cu-btn bg-orange margin-tb-sm lg" bindtap="save" loading="{{loading}}">保存</button>
+  <button class="cu-btn bg-red margin-tb-sm lg" bindtap="delete" wx:if="{{editFlag}}">删除</button>
 </view>
 
-<datePicker date="{{initDate}}" show="{{datePickerShow}}" bind:cancel="dateCancel" bind:confirm="dateConfirm"></datePicker>
+<datePicker initDate="{{initDate}}" show="{{datePickerShow}}" bind:cancel="dateCancel" bind:confirm="dateConfirm"></datePicker>

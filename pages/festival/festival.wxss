@@ -90,3 +90,12 @@ page {
   height: auto;
   flex: 0 0 auto;
 }
+
+.memory-item .setting-box {
+  width: 80rpx;
+}
+
+.memory-item .icon-setting {
+  color: var(--blue);
+  font-size: 60rpx;
+}

@@ -8,9 +8,9 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    date: {
-      type: String,
-      default: '2022-7-13'
+    initDate: {
+      type: Object,
+      default: {}
     },
     show: {
       type: Boolean,
@@ -41,7 +41,7 @@ Component({
             this.getDays(cYear, cMonth, cDay)
           }
         } else {
-          this.setData({ isLunar: false })
+          this.setData({ isLunar: this.data.initDate.isLunar })
           this.getDays(this.year, this.month, this.day)
         }
       }
@@ -50,10 +50,12 @@ Component({
 
   lifetimes: {
     ready: async function () {
-      const arr = this.data.date.split('-')
+      const { date, isLunar } = this.data.initDate
+      const arr = date.split('-')
       this.year = Number(arr[0])
       this.month = Number(arr[1])
       this.day = Number(arr[2])
+      this.setData({ isLunar: !!isLunar })
       this.initDateList()
     },
   },

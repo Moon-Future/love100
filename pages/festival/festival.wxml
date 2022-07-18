@@ -45,13 +45,17 @@
     </view>
     <image class="finished-img" src="{{item.url}}" mode="aspectFit" lazy-load="true" data-url="{{item.url}}" bindtap="previewImage" />
   </view>
-  <view class="festival-item memory-item flex justify-between" wx:for="{{todayMemory}}" wx:key="index">
+  <view class="festival-item memory-item flex justify-between align-center" wx:for="{{todayMemory}}" wx:key="index">
     <view class="flex align-center">
       <view class="today flex align-center justify-center">今天</view>
       <view>
-        <text class="memory-name">{{item.title}}</text>
-        <text class="memory-years">{{item.years}}周年</text>
+        <view>{{item.isLunar ? '农历' : '公历'}} {{item.date}}</view>
+        <view>
+          <text class="memory-name">{{item.title}}</text>
+          <text class="memory-years">{{item.years}}周年</text>
+        </view>
       </view>
     </view>
+    <view class="setting-box"><text class="text-white cuIcon-settings icon-setting" data-item="{{item}}" catchtap="editMemory"></text></view>
   </view>
 </view>

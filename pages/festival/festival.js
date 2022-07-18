@@ -1,5 +1,6 @@
 // pages/festival/festival.js
 const app = getApp()
+const onfire = require('../../lib/onfire')
 Page({
 
   /**
@@ -20,7 +21,39 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    onfire.on('updateMemory', this.updateMemory.bind(this))
     this.getFestival()
+  },
+
+  updateMemory(e) {
+    const { data, type } = e
+    const { memoryList } = this.data
+    const memoryMap = { solar: {}, lunar: {} }
+    if (type === 'add') {
+      memoryList.push(data)
+    } else {
+      let index = -1
+      for (let i = 0, len = memoryList.length; i < len; i++) {
+        if (memoryList[i].id === data.id) {
+          index = i
+          break
+        }
+      }
+      if (type === 'edit') {
+        memoryList.splice(index, 1, data)
+      } else if (type === 'del') {
+        memoryList.splice(index, 1)
+      }
+    }
+    memoryList.forEach(item => {
+      const dateArr = item.date.split('-')
+      memoryMap[item.isLunar ? 'lunar' : 'solar'][`${Number(dateArr[1])}-${Number(dateArr[2])}`] = true
+    })
+    this.setData({
+      memoryMap: memoryMap,
+      memoryList: memoryList
+    })
+    this.filterTodayList()
   },
 
   // 选择天
@@ -28,7 +61,6 @@ Page({
     const activeDayInfo = e.detail
     this.setData({ activeDayInfo })
     this.filterTodayList()
-    console.log('selectDay', activeDayInfo)
   },
 
   async getFestival() {
@@ -36,7 +68,7 @@ Page({
       let result = await wx.$http({
         url: 'getFestival',
         data: {
-          user: app.globalData.userInfo.id || 'ot6KX5MsCLGrSvkXur_jdqbnYkIk',
+          user: app.globalData.userInfo.id,
         }
       })
       const finishedMap = {}
@@ -105,8 +137,17 @@ Page({
   },
 
   addFestival() {
+    app.globalData.memoryEditItem = null
     wx.navigateTo({
       url: `/pages/addMemory/addMemory?date=${this.data.activeDayInfo.date}`
+    })
+  },
+
+  editMemory(e) {
+    const item = e.currentTarget.dataset.item
+    app.globalData.memoryEditItem = item
+    wx.navigateTo({
+      url: '/pages/addMemory/addMemory'
     })
   }
 })

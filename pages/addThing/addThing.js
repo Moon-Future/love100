@@ -78,7 +78,7 @@ Page({
         uploadResult = await this.uploadFile(file, { user: userInfo.id })
         uploadResult.filePath = `https://${uploadResult.filePath}`
       }
-      if (editFlag && name === app.globalData.cardEditItem.title && uploadResult.filePath === app.globalData.cardEditItem.url) {
+      if (editFlag && name.trim() === app.globalData.cardEditItem.title && uploadResult.filePath === app.globalData.cardEditItem.url) {
         wx.showToast({
           title: '无更改，无需提交',
           icon: 'none'

@@ -23,7 +23,7 @@ const API = {
   suggest: baseUrl + 'suggest',
   getFestival: baseUrl + 'getFestival',
   addMemory: baseUrl + 'addMemory',
-  getMemory: baseUrl + 'getMemory'
+  deleteMemory: baseUrl + 'deleteMemory'
 }
 
 function http(opts) {
